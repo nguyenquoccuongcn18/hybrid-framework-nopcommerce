@@ -1,5 +1,6 @@
 package com.nopcommerce.account;
 
+import commons.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,10 +12,10 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class Account_01_Register {
+public class Level_01_DRY {
 
-    WebDriver driver;
-    WebDriverWait explicitWait;
+     WebDriver driver;
+     WebDriverWait explicitWait;
 
     @BeforeClass
     public void beforeClass() {
