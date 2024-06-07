@@ -11,19 +11,24 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
+//Vi phạm nguyên tắc DRY
 public class Level_01_DRY {
 
      WebDriver driver;
      WebDriverWait explicitWait;
+    private BasePage basePage;
+
+
 
     @BeforeClass
     public void beforeClass() {
 
         driver = new ChromeDriver();
         explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-
+        basePage = new BasePage();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.MILLISECONDS);
     }
 
     @Test
