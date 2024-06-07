@@ -36,6 +36,12 @@ public class BasePage {
 
 
     /*Web Browser */
+
+    //Không cần phải khởi tạo đối tượng mà vẫn truy cập được hàm BasPage
+    //
+    public static BasePage getBasePage() {
+        return new BasePage();
+    }
     public void openPageUrl(WebDriver driver , String pageUrl){
         driver.get(pageUrl);
     }
@@ -153,9 +159,9 @@ public class BasePage {
     public void clickToElement(WebDriver driver, String locator){
         getWebElement(driver,locator).click();
     }
-    public void sendKeys(WebDriver driver, String locator, String valueToSend){
+    public void sendKeysToElement(WebDriver driver, String locator, String valueToSend){
         getWebElement(driver,locator).clear();
-        getWebElement(driver,locator).sendKeys();
+        getWebElement(driver,locator).sendKeys(valueToSend);
     }
 
     public String getElementText(WebDriver driver, String locator){
