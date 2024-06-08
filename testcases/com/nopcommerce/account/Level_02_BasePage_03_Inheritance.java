@@ -66,13 +66,13 @@ public class Level_02_BasePage_03_Inheritance extends BasePage {
         sendKeysToElement(driver,"//input[@id='FirstName']", "antony");
         sendKeysToElement(driver,"//input[@id='LastName']", "Compa");
         sendKeysToElement(driver,"//input[@id='Email']", "compa@atony@1gmail.com");
-        sendKeysToElement(driver,"//input[@id='Password']", "12345678");
-        sendKeysToElement(driver,"//input[@id='ConfirmPassword']", "12345678");
+        sendKeysToElement(driver,"//input[@id='Password']", "123");
+        sendKeysToElement(driver,"//input[@id='ConfirmPassword']", "123");
         sleepInsecons (3);
 
         clickToElement(driver,"//button[@id='register-button']");
         sleepInsecons (3);
-        Assert.assertEquals(getElementText(driver,"//span[@id='Email-error']"), "Please enter a valid email address.");
+        Assert.assertEquals(getElementText(driver,"//span[@id='Email-error']"), "Password must meet the following rules: </p><ul><li>must have at least 6 characters and not greater than 64 characters");
 
     }
 
