@@ -34,6 +34,7 @@ public class Level_03_PageObject extends BasePage {
         driver = new ChromeDriver();
         openPageUrl(driver,"https://demo.nopcommerce.com/");
         explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.MILLISECONDS);
         //1. Mở 1 Url của Page nào đó ra thì phải khởi tạo lên
         //2. Từ 1 Page này chuyển sang Page kia thì khởi tạo lên
@@ -45,12 +46,12 @@ public class Level_03_PageObject extends BasePage {
         homePage.clickToRegisterLink();
 
         //Từ HomePage click Register nó sẽ mở ra trang Register Page
-        registerPage = new RegisterPageObject();
+        registerPage = new RegisterPageObject(driver);
         registerPage.clickToRegisterButton();
         Assert.assertEquals(registerPage.getFirstNameErrorMessageText(),"First name is required.");
         Assert.assertEquals(registerPage.getLastNameErrorMessageText(),"Last name is required.");
         Assert.assertEquals(registerPage.getEmailErrorMessageText(),"Email is required.");
-        Assert.assertEquals(registerPage.getConfirmPasswordErrorMessageText(),"Password is required.");
+        Assert.assertEquals(registerPage.getConfirmPasswordErrorMessageText(),"First name is required.");
     }
 
     @Test
@@ -59,7 +60,7 @@ public class Level_03_PageObject extends BasePage {
        homePage = new HomePageObject(driver);
 
        homePage.clickToRegisterLink();
-       registerPage = new RegisterPageObject();
+       registerPage = new RegisterPageObject(driver);
 
         registerPage.enterToFirstNameTextBox("antony");
         registerPage.enterToLastNameTextBox("Compa");
@@ -69,7 +70,7 @@ public class Level_03_PageObject extends BasePage {
 
         registerPage.clickToRegisterButton();
 
-        Assert.assertEquals(registerPage.getEmailErrorMessageText(),"First name is required.");
+        Assert.assertEquals(registerPage.getEmailErrorMessageText(),"Please enter a valid email address.");
 
     }
 
@@ -79,7 +80,7 @@ public class Level_03_PageObject extends BasePage {
         homePage = new HomePageObject(driver);
 
         homePage.clickToRegisterLink();
-        registerPage = new RegisterPageObject();
+        registerPage = new RegisterPageObject(driver);
 
         registerPage.enterToFirstNameTextBox("antony");
         registerPage.enterToLastNameTextBox("Compa");
@@ -99,7 +100,7 @@ public class Level_03_PageObject extends BasePage {
         homePage = new HomePageObject(driver);
 
         homePage.clickToRegisterLink();
-        registerPage = new RegisterPageObject();
+        registerPage = new RegisterPageObject(driver);
 
         registerPage.enterToFirstNameTextBox("antony");
         registerPage.enterToLastNameTextBox("Compa");
@@ -118,11 +119,11 @@ public class Level_03_PageObject extends BasePage {
         homePage = new HomePageObject(driver);
 
         homePage.clickToRegisterLink();
-        registerPage = new RegisterPageObject();
+        registerPage = new RegisterPageObject(driver);
 
         registerPage.enterToFirstNameTextBox("antony");
         registerPage.enterToLastNameTextBox("Compa");
-        registerPage.enterToEmailTextBox(emailAddress);
+        registerPage.enterToEmailTextBox("antonyCompa000000012@gmail.com");
         registerPage.enterToPsswordTextBox("12345678");
         registerPage.enterToconfirmPasswordTextBox("12345678");
 
@@ -132,30 +133,35 @@ public class Level_03_PageObject extends BasePage {
     }
     @Test
     public void Register_06_Success_Login() {
+        //Step 05 Đăng kí thành công -> Login user luôn nên Step 06 không cần login lại
         registerPage.clickToNopCommerceLogo();
         homePage = new HomePageObject(driver);
+        homePage.clickToMyAccountLink();
+//      customerPage = new CustomerPageObject(driver);
 
-        homePage.clickToLoginLink();
-        loginPage = new LoginPageObject();
-
-        loginPage.enterToEmailTextBox(emailAddress);
-        loginPage.enterToPasswordTextBox("12345678");
-        loginPage.clickToLoginButton();
+//        loginPage = new LoginPageObject(driver);
+//
+//        loginPage.enterToEmailTextBox("antonyCompa000000010@gmail.com");
+//        loginPage.enterToPasswordTextBox("12345678");
+//        loginPage.clickToLoginButton();
 
         homePage = new HomePageObject(driver);
         homePage.clickToMyAccountLink();
-        customerPage = new CustomerPageObject();
+        customerPage = new CustomerPageObject(driver);
 
-        Assert.assertEquals(customerPage.getEmailAtrributeValue(),emailAddress);
-        Assert.assertEquals(customerPage.getFirtNamAtrributeValue(),"antony");
-        Assert.assertEquals(customerPage.getLastNamAtrributeValue(),"Compa");
+        Assert.assertEquals(customerPage.getFirtNameAtrributeValue(),"antony");
+
+        Assert.assertEquals(customerPage.getLastNameAtrributeValue(),"antonyCompa000000012@gmail.com");
+
+        Assert.assertEquals(customerPage.getEmailAtrributeValue(),"antonyCompa000000012@gmail.com");
+
 
     }
-
     @AfterClass
     public void afterClass() {
         driver.quit();
     }
+
     public void sleepInsecons(long timeInsecons) {
         try {
             Thread.sleep(timeInsecons * 1000);

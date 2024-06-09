@@ -16,12 +16,12 @@ public class HomePageObject extends BasePage {
     }
 
     public void clickToLoginLink() {
-        waitForElementClickable(driver, HomePageUI.REGISTER_LINK);
-        clickToElement(driver, HomePageUI.LOGIN_LINK);
+        waitForElementClickable(driver, HomePageUI.LOGIN_REGISTER_LINK);
+        clickToElement(driver, HomePageUI.LOGIN_REGISTER_LINK);
     }
 
     public void clickToMyAccountLink() {
-        waitForElementClickable(driver, HomePageUI.REGISTER_LINK);
+        waitForElementClickable(driver, HomePageUI.MY_ACCOUNT_LINK);
         clickToElement(driver, HomePageUI.MY_ACCOUNT_LINK);
     }
 }

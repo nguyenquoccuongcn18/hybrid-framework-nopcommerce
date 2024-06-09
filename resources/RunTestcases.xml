@@ -3,7 +3,8 @@
 <suite name="NopCommerce">
     <test name="Run on Firefox">
         <classes>
-            <class name="com.nopcommerce.account.Level_02_BasePage_01_Init"></class>
+            <class name="com.nopcommerce.account.Level_03_PageObject"></class>
         </classes>
+
     </test>
 </suite>

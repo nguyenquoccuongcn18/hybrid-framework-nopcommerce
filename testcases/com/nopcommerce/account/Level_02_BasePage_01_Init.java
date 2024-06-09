@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 //Không khởi tạo trực tiếp đối tượng trên class Test
 //Nên che dấu và ẩn dấu nó đi tính đóng gói
-public class Level_02_BasePage_01_Init {
+public class Level_02_BasePage_01_Init extends BasePage {
 
     private WebDriver driver;
      WebDriverWait explicitWait;

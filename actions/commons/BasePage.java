@@ -351,7 +351,7 @@ public class BasePage {
         new WebDriverWait(driver,Duration.ofMillis(30)).until(ExpectedConditions.visibilityOfAllElements(getListElement(driver,locator)));
     }
     public void waitForElementInvisible(WebDriver driver,String locator){
-        new WebDriverWait(driver,Duration.ofMillis(30)).until(ExpectedConditions.invisibilityOfElementLocated(getByXpath(locator)));
+        new WebDriverWait(driver,Duration.ofMillis(30)).until(ExpectedConditions.visibilityOfElementLocated(getByXpath(locator)));
     }
     public void waitForListElementInvisible(WebDriver driver,String locator){
         new WebDriverWait(driver,Duration.ofMillis(30)).until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver,locator)));
