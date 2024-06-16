@@ -1,5 +1,6 @@
 package commons;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,12 +17,19 @@ public class BaseTest {
         BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
 
         if (browser == BrowserList.CHROME){
-            driver = new ChromeDriver();
+//            //tự tải về + settings
+//            FirefoxDriver.SystemProperty (WebDriver driver , " ");
+
+            //WebDriverManager: tải về driver + settings biến môi trường và khởi tạo browser lên
+            driver = WebDriverManager.chromedriver().create();
+
+//            //Selenium manager
+//            driver = new FirefoxDriver();
         }
         else if(browser == BrowserList.FIREFOX){
-            driver = new FirefoxDriver();
+            driver = WebDriverManager.firefoxdriver().create();
         }   else if(browser == BrowserList.EDGE){
-            driver = new EdgeDriver();
+            driver = WebDriverManager.edgedriver().create();
         }else {
             throw new RuntimeException("Lỗi không mở được trình duyệt");
         }
@@ -32,6 +40,7 @@ public class BaseTest {
 //        //mở trang web
 //        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 //        driver.manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);
+
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.MILLISECONDS);
         driver.get("https://demo.nopcommerce.com/");
