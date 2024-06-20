@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
-    private WebDriver driver;
+    protected WebDriver driver;
 
     protected WebDriver getBrowerDriver(String browserName){
         BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());

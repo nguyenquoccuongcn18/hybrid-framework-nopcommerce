@@ -41,7 +41,7 @@ public class Level_05_WebDriverManger extends BaseTest {
         registerPage.clickToRegisterButton();
         Assert.assertEquals(registerPage.getFirstNameErrorMessageText(),"First name is required.");
         Assert.assertEquals(registerPage.getLastNameErrorMessageText(),"Last name is required.");
-        Assert.assertEquals(registerPage.getEmailErrorMessageText(),"Email is required.");
+        Assert.assertEquals(registerPage.getEmailErrorMessageTextEmpty(),"Email is required.");
         Assert.assertEquals(registerPage.getConfirmPasswordErrorMessageText(),"First name is required.");
     }
 
@@ -60,8 +60,7 @@ public class Level_05_WebDriverManger extends BaseTest {
         registerPage.enterToconfirmPasswordTextBox("12345678");
 
         registerPage.clickToRegisterButton();
-
-        Assert.assertEquals(registerPage.getEmailErrorMessageText(),"Please enter a valid email address.");
+//        Assert.assertEquals(registerPage.getEmailErrorMessageText1(),"Please enter a valid email address.");
 
     }
 

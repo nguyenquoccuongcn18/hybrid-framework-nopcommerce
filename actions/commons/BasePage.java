@@ -357,7 +357,7 @@ public class BasePage {
         new WebDriverWait(driver,Duration.ofMillis(3)).until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver,locator)));
     }
     public void waitForElementClickable(WebDriver driver,String locator){
-        new WebDriverWait(driver,Duration.ofMillis(20)).until(ExpectedConditions.elementToBeClickable(getWebElement(driver,locator)));
+        new WebDriverWait(driver,Duration.ofMillis(30)).until(ExpectedConditions.elementToBeClickable(getWebElement(driver,locator)));
     }
 
 

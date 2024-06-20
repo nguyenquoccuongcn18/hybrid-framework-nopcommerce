@@ -24,10 +24,19 @@ public class RegisterPageObject extends BasePage {
         return getElementText(driver,RegisterPageUI.LASTNAME_ERROR_MSG);
     }
 
-    public String getEmailErrorMessageText() {
+    public String getEmailMessageText() {
+        waitForElementClickable(driver, RegisterPageUI.EMAIL_TEXTBOX);
+        return getElementText(driver,RegisterPageUI.EMAIL_TEXTBOX);
+    }
+    public String getEmailErrorMessageTextEmpty() {
+        waitForElementClickable(driver, RegisterPageUI.EMAIL_ERROR_MSG_EMPTY);
+        return getElementText(driver,RegisterPageUI.EMAIL_ERROR_MSG_EMPTY);
+    }
+    public String getEmailErrorMessageText1() {
         waitForElementClickable(driver, RegisterPageUI.EMAIL_ERROR_MSG);
         return getElementText(driver,RegisterPageUI.EMAIL_ERROR_MSG);
     }
+
 
     public String getConfirmPasswordErrorMessageText() {
         waitForElementClickable(driver, RegisterPageUI.CONFIRM_PASSWORD_ERROR_MSG);

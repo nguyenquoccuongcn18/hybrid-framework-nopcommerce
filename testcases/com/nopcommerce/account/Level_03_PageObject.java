@@ -50,7 +50,7 @@ public class Level_03_PageObject extends BasePage {
         registerPage.clickToRegisterButton();
         Assert.assertEquals(registerPage.getFirstNameErrorMessageText(),"First name is required.");
         Assert.assertEquals(registerPage.getLastNameErrorMessageText(),"Last name is required.");
-        Assert.assertEquals(registerPage.getEmailErrorMessageText(),"Email is required.");
+        Assert.assertEquals(registerPage.getEmailMessageText(),"Email is required.");
         Assert.assertEquals(registerPage.getConfirmPasswordErrorMessageText(),"First name is required.");
     }
 
@@ -70,7 +70,7 @@ public class Level_03_PageObject extends BasePage {
 
         registerPage.clickToRegisterButton();
 
-        Assert.assertEquals(registerPage.getEmailErrorMessageText(),"Please enter a valid email address.");
+        Assert.assertEquals(registerPage.getEmailMessageText(),"Please enter a valid email address.");
 
     }
 

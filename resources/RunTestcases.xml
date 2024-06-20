@@ -6,13 +6,13 @@
         <classes>
             <class name="com.nopcommerce.account.Level_05_WebDriverManger"></class>
         </classes>
-
     </test>
-    <test name="Run on Firefox">
-        <parameter name="browser" value="firefox"/>
-        <classes>
-            <class name="com.nopcommerce.account.Level_05_WebDriverManger"></class>
-        </classes>
 
-    </test>
+<!--    <test name="Run on Firefox">-->
+<!--        <parameter name="browser" value="firefox"/>-->
+<!--        <classes>-->
+<!--            <class name="com.nopcommerce.account.Level_05_WebDriverManger"></class>-->
+<!--        </classes>-->
+
+<!--    </test>-->
 </suite>

@@ -8,9 +8,10 @@ public class RegisterPageUI {
     public static final String CONFIRM_PASSWORD_TEXTBOX = "//input[@id='ConfirmPassword']";
     public static final String REGISTER_BUTTON = "//button[@id='register-button']";
 
-    public static final String FIRSTNAME_ERROR_MSG = "//span[@id='FirstName-error']";
-    public static final String LASTNAME_ERROR_MSG = "//span[@id='LastName-error']";
+    public static final String FIRSTNAME_ERROR_MSG = "//span[normalize-space()='First name is required.']";
+    public static final String LASTNAME_ERROR_MSG = "//span[normalize-space()='Last name is required.']";
     public static final String EMAIL_ERROR_MSG = "//span[@id='Email-error']";
+    public static final String EMAIL_ERROR_MSG_EMPTY = "//span[normalize-space()='Email is required.']";
     public static final String PASSWORD_ERROR_MSG = "//input[@id='Password-error']";
     public static final String CONFIRM_PASSWORD_ERROR_MSG = "//span[@class='field-validation-error']";
     public static final String REGISTER_COMPLETED_MSG = "//div[@class='result']";
