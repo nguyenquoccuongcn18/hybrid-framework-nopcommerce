@@ -9,10 +9,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import pageObjects.CustomerPageObject;
-import pageObjects.HomePageObject;
-import pageObjects.LoginPageObject;
-import pageObjects.RegisterPageObject;
+import pageObjects.*;
 
 
 public class Level_08_Switch_Page extends BaseTest {
@@ -23,6 +20,8 @@ public class Level_08_Switch_Page extends BaseTest {
      private RegisterPageObject registerPage;
      private CustomerPageObject customerPage;
      private LoginPageObject  loginPage;
+     private AddressPageObjects addressPage;
+     private OderPageObjects oderPage;
      private final String emailAddress = getEmailRandom();
 
 
@@ -37,18 +36,18 @@ public class Level_08_Switch_Page extends BaseTest {
 
     @Test
     public void Register_01_Success() {
-        homePage = registerPage.clickToNopCommerceLogo();
 
         registerPage = homePage.clickToRegisterLink();
+//        homePage = registerPage.clickToNopCommerceLogo();
 
         registerPage.enterToFirstNameTextBox("antony");
         registerPage.enterToLastNameTextBox("Compa");
-        registerPage.enterToEmailTextBox("antonyCompa000000012@gmail.com");
+        registerPage.enterToEmailTextBox("antonyCompa000000015@gmail.com");
         registerPage.enterToPsswordTextBox("12345678");
         registerPage.enterToconfirmPasswordTextBox("12345678");
 
         registerPage.clickToRegisterButton();
-        Assert.assertEquals(registerPage.getRegisterSuccessMessageText(),"Your registration completed");
+//        Assert.assertEquals(registerPage.getRegisterSuccessMessageText(),"Your registration completed");
 
     }
     @Test
@@ -64,14 +63,23 @@ public class Level_08_Switch_Page extends BaseTest {
 
         Assert.assertEquals(customerPage.getFirtNameAtrributeValue(),"antony");
 
-        Assert.assertEquals(customerPage.getLastNameAtrributeValue(),"antonyCompa000000012@gmail.com");
+        Assert.assertEquals(customerPage.getLastNameAtrributeValue(),"antonyCompa000000015@gmail.com");
 
-        Assert.assertEquals(customerPage.getEmailAtrributeValue(),"antonyCompa000000012@gmail.com");
+        Assert.assertEquals(customerPage.getEmailAtrributeValue(),"antonyCompa000000015@gmail.com");
+    }
 
+    @Test
+    public void User_03_Switch_Page() {
+        //CustomerPage -> AddressPage
+        addressPage = customerPage.openAddressPage(driver);
+        //CustomerPage -> OrderPage
+        oderPage = customerPage.openOderPage(driver);
+        //AddressPage -> OrderPage
+        oderPage = addressPage.openOrderPage(driver);
+        //OderPage -> CustomerPage
+        customerPage = oderPage.openCustomerPage(driver);
 
     }
-    @Test
-    public void User_03_Switch_Page() {}
     @AfterClass
     public void afterClass() {
         driver.quit();

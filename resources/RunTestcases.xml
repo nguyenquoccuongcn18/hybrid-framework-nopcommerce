@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="NopCommerce">
-    <test name="Run on Chrome">
-        <parameter name="browser" value="chrome"/>
-        <classes>
-            <class name="com.nopcommerce.account.Level_07_Page_Manager_03"></class>
-        </classes>
-    </test>
-
-<!--    <test name="Run on Firefox">-->
-<!--        <parameter name="browser" value="firefox"/>-->
+<!--    <test name="Run on Chrome">-->
+<!--        <parameter name="browser" value="chrome"/>-->
 <!--        <classes>-->
-<!--            <class name="com.nopcommerce.account.Level_05_WebDriverManger"></class>-->
+<!--            <class name="com.nopcommerce.account.Level_08_Switch_Page"></class>-->
 <!--        </classes>-->
-
 <!--    </test>-->
+
+    <test name="Run on Firefox">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="com.nopcommerce.account.Level_08_Switch_Page"></class>
+        </classes>
+
+    </test>
 </suite>

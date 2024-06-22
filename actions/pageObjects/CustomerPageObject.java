@@ -1,8 +1,8 @@
 package pageObjects;
 
 import commons.BasePage;
+import commons.PageGeneratorManager;
 import org.openqa.selenium.WebDriver;
-import pageUIs.CustomerPageUI;
 import pageUIs.CustomerPageUI;
 
 public class CustomerPageObject extends BasePage {
@@ -24,4 +24,6 @@ public class CustomerPageObject extends BasePage {
         waitForElementInvisible(driver, CustomerPageUI.EMAIL_ADDRESS_TEXTBOX);
         return getElementAttribute(driver, CustomerPageUI.EMAIL_ADDRESS_TEXTBOX,"value");
     }
+
+
 }
