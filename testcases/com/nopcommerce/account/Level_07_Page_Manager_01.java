@@ -14,7 +14,7 @@ import pageObjects.LoginPageObject;
 import pageObjects.RegisterPageObject;
 
 
-public class Level_05_WebDriverManger extends BaseTest {
+public class Level_07_Page_Manager_01 extends BaseTest {
 
     private WebDriver driver;
      WebDriverWait explicitWait;
@@ -22,18 +22,19 @@ public class Level_05_WebDriverManger extends BaseTest {
      private RegisterPageObject registerPage;
      private CustomerPageObject customerPage;
      private LoginPageObject  loginPage;
-     private String emailAddress = getEmailRandom();
+     private final String emailAddress = getEmailRandom();
 
 
     @Parameters("browser")
     @BeforeClass
     public void beforeClass(String browserName) {
         driver= getBrowerDriver(browserName);
-        homePage = new HomePageObject(driver);
     }
 
     @Test
     public void Register_01_Empty_Data() {
+        homePage = new HomePageObject(driver);
+
         homePage.clickToRegisterLink();
 
         //Từ HomePage click Register nó sẽ mở ra trang Register Page
