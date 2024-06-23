@@ -6,6 +6,7 @@ import pageObjectsAdmin.AdminLoginPageObject;
 import pageObjectsUser.*;
 
 public class PageGeneratorManager {
+
     public static HomePageObject getHomePage(WebDriver driver){
         return new HomePageObject(driver);
     }

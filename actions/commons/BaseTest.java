@@ -42,7 +42,7 @@ public class BaseTest {
 //        driver.manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);
 
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.MILLISECONDS);
+        driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.MILLISECONDS);
         driver.get("https://demo.nopcommerce.com/");
         return driver;
     }
@@ -71,7 +71,7 @@ public class BaseTest {
             throw new RuntimeException("Lỗi không mở được trình duyệt");
         }
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.MILLISECONDS);
+        driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.MILLISECONDS);
         driver.get(url);
         return driver;
     }

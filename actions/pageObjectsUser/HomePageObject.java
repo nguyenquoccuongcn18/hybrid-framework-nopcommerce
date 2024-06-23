@@ -28,4 +28,15 @@ public class HomePageObject extends BasePage {
         clickToElement(driver, HomePageUI.MY_ACCOUNT_LINK);
         return PageGeneratorManager.getCustomerPage(driver);
     }
+
+    public void clickToLogoutLink() {
+        waitForElementClickable(driver, HomePageUI.LOGOUT_LINK);
+        clickToElement(driver, HomePageUI.LOGOUT_LINK);
+    }
+
+    public LoginPageObjectUser clickToLogInLink() {
+        waitForElementVisible(driver, HomePageUI.LOGIN_LINK);
+        clickToElement(driver, HomePageUI.LOGIN_LINK);
+        return PageGeneratorManager.getLoginPageUser(driver);
+    }
 }

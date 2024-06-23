@@ -3,6 +3,7 @@ package commons;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.Color;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -68,7 +69,7 @@ public class BasePage {
     }
 
     public Alert waitForAlertPresent(WebDriver driver){
-        Duration timeout = Duration.ofMillis(30);
+        Duration timeout = Duration.ofMillis(longTimeout);
        return new WebDriverWait(driver,timeout).until(ExpectedConditions.alertIsPresent());
     }
     public void acceptToAlert (WebDriver driver){
@@ -143,16 +144,37 @@ public class BasePage {
 
     /*Web Element*/
     //Viêt lặp lại thành hàm mới
+    public By getByLocator(String loacatorValue){
+        By by = null;
+        if (loacatorValue.startsWith("xpath=")||loacatorValue.startsWith("Xpath=")||loacatorValue.startsWith("XPATH=")){
+            by = By.xpath(loacatorValue.substring(6));
+        }else if (loacatorValue.startsWith("id=")||loacatorValue.startsWith("Id=")||loacatorValue.startsWith("ID=")){
+            by = By.id(loacatorValue.substring(6));
+        }else if (loacatorValue.startsWith("name=")||loacatorValue.startsWith("Name=")||loacatorValue.startsWith("NAME=")){
+            by = By.name(loacatorValue.substring(5));
+        }else if (loacatorValue.startsWith("tagname=")||loacatorValue.startsWith("Tagname=")||loacatorValue.startsWith("TAGNAME=")) {
+            by = By.tagName(loacatorValue.substring(8));
+        }else if (loacatorValue.startsWith("class=")||loacatorValue.startsWith("Class=")||loacatorValue.startsWith("CLASS=")) {
+            by = By.className(loacatorValue.substring(6));
+        }else if (loacatorValue.startsWith("css=")||loacatorValue.startsWith("Css=")||loacatorValue.startsWith("CSS=")) {
+            by = By.cssSelector(loacatorValue.substring(4));
+        }else {
+            throw new RuntimeException("Locator Type is not valid.");
+        }
+        System.out.println(by);
+        return by;
+
+    }
 
     public By getByXpath(String loacator){
         return By.xpath(loacator);
     }
     public WebElement getWebElement(WebDriver driver, String loacator){
-        return driver.findElement(getByXpath(loacator));
+        return driver.findElement(getByLocator(loacator));
     }
 
     public List<WebElement> getListElement(WebDriver driver, String loacator){
-        return driver.findElements(getByXpath(loacator));
+        return driver.findElements(getByLocator(loacator));
     }
     public void clickToElement(WebDriver driver, String locator){
         getWebElement(driver,locator).click();
@@ -184,7 +206,7 @@ public class BasePage {
     public void SelectItemDropdown (WebDriver driver,String parrentLocator, String ChilLocator ,String ItemTextExpected){
         getWebElement(driver,parrentLocator);
         sleepInsecons(3);
-        List<WebElement> AllItems =new WebDriverWait(driver,Duration.ofMillis(300)).until(ExpectedConditions.presenceOfAllElementsLocatedBy(getByXpath(ChilLocator)));;
+        List<WebElement> AllItems =new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.presenceOfAllElementsLocatedBy(getByLocator(ChilLocator)));;
         for (WebElement item : AllItems){
             if (item.getText().equals(ItemTextExpected)){
                 item.click();
@@ -245,7 +267,7 @@ public class BasePage {
     }
 
     public void switchToIFrame(WebDriver driver, String locator){
-        new WebDriverWait(driver,Duration.ofMillis(30)).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(getByXpath(locator)));
+        new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(getByLocator(locator)));
         driver.switchTo().frame(getWebElement(driver,locator));
     }
 
@@ -343,23 +365,42 @@ public class BasePage {
 
     //Wait
     public void waitForElementVisible(WebDriver driver,String locator){
-        new WebDriverWait(driver,Duration.ofMillis(3)).until(ExpectedConditions.visibilityOfElementLocated(getByXpath(locator)));
+        new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator)));
     }
     public void waitForListElementVisible(WebDriver driver,String locator){
-        new WebDriverWait(driver,Duration.ofMillis(3)).until(ExpectedConditions.visibilityOfAllElements(getListElement(driver,locator)));
+        new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.visibilityOfAllElements(getListElement(driver,locator)));
     }
     public void waitForElementInvisible(WebDriver driver,String locator){
-        new WebDriverWait(driver,Duration.ofMillis(10)).until(ExpectedConditions.visibilityOfElementLocated(getByXpath(locator)));
+        new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator)));
     }
     public void waitForListElementInvisible(WebDriver driver,String locator){
-        new WebDriverWait(driver,Duration.ofMillis(3)).until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver,locator)));
+        new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver,locator)));
     }
     public void waitForElementClickable(WebDriver driver,String locator){
-        new WebDriverWait(driver,Duration.ofMillis(30)).until(ExpectedConditions.elementToBeClickable(getWebElement(driver,locator)));
+        new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.elementToBeClickable(getWebElement(driver,locator)));
     }
+    public long longTimeout = GlobalConstants.LONG_TIMEOUT;
+    public long shortTimeout = GlobalConstants.SHORT_TIMEOUT;
+
+    public boolean isPageLoadedSuccess(WebDriver driver) {
+        WebDriverWait explicitWait = new WebDriverWait(this.driver,Duration.ofSeconds(longTimeout));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) this.driver;
 
 
-    //
-
-
+        //Điều kiện 1
+        ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return (Boolean) jsExecutor.executeScript("return (window.jQuery != null) && (jQuery.active === 0);");
+            }
+        };
+        //Điều kiện 2
+        ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return jsExecutor.executeScript("return document.readyState").toString().equals("complete");
+            }
+        };
+        return explicitWait.until(jQueryLoad);
+    }
 }

@@ -1,8 +1,8 @@
 package com.nopcommerce.account;
 
 import commons.BaseTest;
+import commons.GlobalConstants;
 import commons.PageGeneratorManager;
-import graphql.Assert;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -10,10 +10,13 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjectsAdmin.AdminDashboardPageObjects;
 import pageObjectsAdmin.AdminLoginPageObject;
-import pageObjectsUser.*;
+import pageObjectsUser.CustomerPageObject;
+import pageObjectsUser.HomePageObject;
+import pageObjectsUser.LoginPageObjectUser;
+import pageObjectsUser.RegisterPageObject;
 
 
-public class Level_10_Switch_Role extends BaseTest {
+public class Level_11_Gloabal_Constants extends BaseTest {
 
     private WebDriver driver;
      private HomePageObject homePage;
@@ -23,15 +26,15 @@ public class Level_10_Switch_Role extends BaseTest {
      private AdminLoginPageObject adminLoginPage;
     private AdminDashboardPageObjects adminDashboardPage;
      private final String emailAddress = getEmailRandom();
-     private String adminUrl , endUserUrl ;
+     private String adminUrl = GlobalConstants.DEV_ADMIN_URL;
+    private String endUserUrl = GlobalConstants.DEV_USER_URL;
 
 
-    @Parameters({"browser","adminUrl","userUrl"})
+    @Parameters({"browser"})
     @BeforeClass
-    public void beforeClass(String browserName, String adminUrl, String endUserUrl) {
+    public void beforeClass(String browserName) {
         driver= getBrowerDriverAdminEndUser(browserName,endUserUrl);
-        this.adminUrl = adminUrl;
-        this.endUserUrl = endUserUrl;
+
         homePage = PageGeneratorManager.getHomePage(driver);
     }
 
@@ -54,11 +57,11 @@ public class Level_10_Switch_Role extends BaseTest {
         homePage.clickToLogoutLink();
 
         //Homepage user -> login page admin
-        homePage.openPageUrl(driver,this.adminUrl);
+        homePage.openPageUrl(driver,adminUrl);
 
         adminLoginPage = PageGeneratorManager.getAdminLoginPage(driver);
         //Login Admin -> login page admin
-        adminDashboardPage = adminLoginPage.clickToLoginButtonAdmin("admin@yourstore.com", "admin");
+        adminDashboardPage = adminLoginPage.clickToLoginButtonAdmin(GlobalConstants.DEV_ADMIN_USERNAME,GlobalConstants.DEV_ADMIN_PASSWORD);
 //        Assert.assertTrue(adminDashboardPage.isPageLoadedSuccess(driver));
         sleepInsecons(10);
 
@@ -68,7 +71,7 @@ public class Level_10_Switch_Role extends BaseTest {
         adminLoginPage = adminDashboardPage.clickToLogOutLinkAdmin();
 
         //Loout Admin -> Login homepage User
-        adminLoginPage.openPageUrl(driver,this.endUserUrl);
+        adminLoginPage.openPageUrl(driver,endUserUrl);
         homePage = PageGeneratorManager.getHomePage(driver);
 
         loginPageObjectUser = homePage.clickToLogInLink();

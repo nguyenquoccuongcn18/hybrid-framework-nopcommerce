@@ -1,8 +1,8 @@
 package pageUserUIs;
 
 public class CustomerPageUI {
-    public static final String EMAIL_ADDRESS_TEXTBOX = "//input[@id='Email']";
-    public static final String FIRTNAME_TEXTBOX = "//input[@id='FirstName']";
-    public static final String LASTNAME_TEXTBOX = "//input[@id='LastName']";
+    public static final String EMAIL_ADDRESS_TEXTBOX = "xpath=//input[@id='Email']";
+    public static final String FIRTNAME_TEXTBOX = "xpath=//input[@id='FirstName']";
+    public static final String LASTNAME_TEXTBOX = "xpath=//input[@id='LastName']";
 
 }
