@@ -1,10 +1,8 @@
 package pageObjectsFactory;
 
-import commons.BasePage;
 import commons.BasePageFactoty;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import pageUIs.LoginPageUI;
 
 public class LoginPageObjectFactory extends BasePageFactoty {
     WebDriver driver;

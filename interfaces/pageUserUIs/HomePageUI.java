@@ -1,4 +1,4 @@
-package pageUIs;
+package pageUserUIs;
 
 public class HomePageUI {
     //1. public : bất kì 1 class nào cũng có thể gọi đến để sử dụng

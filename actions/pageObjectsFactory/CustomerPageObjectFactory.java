@@ -1,12 +1,10 @@
 package pageObjectsFactory;
 
-import commons.BasePage;
 import commons.BasePageFactoty;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import pageUIs.CustomerPageUI;
 
 public class CustomerPageObjectFactory extends BasePageFactoty {
     WebDriver driver;

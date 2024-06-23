@@ -1,4 +1,4 @@
-package pageUIs;
+package pageUserUIs;
 
 public class OderPageUI {
 }

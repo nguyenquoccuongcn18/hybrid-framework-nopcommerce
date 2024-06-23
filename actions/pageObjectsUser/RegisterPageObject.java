@@ -1,9 +1,9 @@
-package pageObjects;
+package pageObjectsUser;
 
 import commons.BasePage;
 import commons.PageGeneratorManager;
 import org.openqa.selenium.WebDriver;
-import pageUIs.RegisterPageUI;
+import pageUserUIs.RegisterPageUI;
 
 public class RegisterPageObject extends BasePage {
     WebDriver driver;

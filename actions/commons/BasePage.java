@@ -6,13 +6,6 @@ import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageObjects.AddressPageObjects;
-import pageObjects.CustomerPageObject;
-import pageObjects.OderPageObjects;
-import pageUIs.AddressPageUI;
-import pageUIs.BasePageUI;
-import pageUIs.CustomerPageUI;
-import pageUIs.OderPageUI;
 
 import java.time.Duration;
 import java.util.List;
@@ -356,7 +349,7 @@ public class BasePage {
         new WebDriverWait(driver,Duration.ofMillis(3)).until(ExpectedConditions.visibilityOfAllElements(getListElement(driver,locator)));
     }
     public void waitForElementInvisible(WebDriver driver,String locator){
-        new WebDriverWait(driver,Duration.ofMillis(3)).until(ExpectedConditions.visibilityOfElementLocated(getByXpath(locator)));
+        new WebDriverWait(driver,Duration.ofMillis(10)).until(ExpectedConditions.visibilityOfElementLocated(getByXpath(locator)));
     }
     public void waitForListElementInvisible(WebDriver driver,String locator){
         new WebDriverWait(driver,Duration.ofMillis(3)).until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver,locator)));
@@ -364,26 +357,9 @@ public class BasePage {
     public void waitForElementClickable(WebDriver driver,String locator){
         new WebDriverWait(driver,Duration.ofMillis(30)).until(ExpectedConditions.elementToBeClickable(getWebElement(driver,locator)));
     }
-    //
-    public AddressPageObjects openAddressPage(WebDriver driver) {
-        waitForElementInvisible(driver, BasePageUI.ADDRESS_MENU_LEFT);
-        clickToElement(driver, BasePageUI.ADDRESS_MENU_LEFT);
-        return PageGeneratorManager.getAddressPage(driver);
-    }
 
-    public OderPageObjects openOderPage(WebDriver driver) {
-        waitForElementInvisible(driver, BasePageUI.ODERS_MENU_LEFT);
-        clickToElement(driver, BasePageUI.ODERS_MENU_LEFT);
-        return PageGeneratorManager.getOderPage(driver);
-    }
-    public OderPageObjects openOrderPage(WebDriver driver) {
-        waitForElementInvisible(driver, BasePageUI.ADDRESS_MENU_LEFT);
-        clickToElement(driver, BasePageUI.ADDRESS_MENU_LEFT);
-        return PageGeneratorManager.getOderPage(driver);
-    }
-    public CustomerPageObject openCustomerPage(WebDriver driver) {
-        waitForElementInvisible(driver, BasePageUI.CUSTOMER_INFO_MENU_LEFT);
-        clickToElement(driver, BasePageUI.CUSTOMER_INFO_MENU_LEFT);
-        return PageGeneratorManager.getCustomerPage(driver);
-    }
+
+    //
+
+
 }

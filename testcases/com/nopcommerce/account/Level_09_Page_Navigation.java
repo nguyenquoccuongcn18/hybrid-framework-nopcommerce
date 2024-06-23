@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import pageObjectsUser.*;
 
 
-public class Level_08_Switch_Page extends BaseTest {
+public class Level_09_Page_Navigation extends BaseTest {
 
     private WebDriver driver;
      WebDriverWait explicitWait;
@@ -21,7 +21,7 @@ public class Level_08_Switch_Page extends BaseTest {
      private CustomerPageObject customerPage;
      private LoginPageObjectUser loginPage;
      private AddressPageObjects addressPage;
-     private OrderPageObjects oderPage;
+     private OrderPageObjects orderPage;
      private final String emailAddress = getEmailRandom();
 
 
@@ -42,7 +42,7 @@ public class Level_08_Switch_Page extends BaseTest {
 
         registerPage.enterToFirstNameTextBox("antony");
         registerPage.enterToLastNameTextBox("Compa");
-        registerPage.enterToEmailTextBox("antonyCompa000000014@gmail.com");
+        registerPage.enterToEmailTextBox("antonyCompa00000003@gmail.com");
         registerPage.enterToPsswordTextBox("12345678");
         registerPage.enterToconfirmPasswordTextBox("12345678");
 
@@ -63,21 +63,21 @@ public class Level_08_Switch_Page extends BaseTest {
 
         Assert.assertEquals(customerPage.getFirtNameAtrributeValue(),"antony");
 
-        Assert.assertEquals(customerPage.getLastNameAtrributeValue(),"antonyCompa000000014@gmail.com");
+        Assert.assertEquals(customerPage.getLastNameAtrributeValue(),"antonyCompa00000003@gmail.com");
 
-        Assert.assertEquals(customerPage.getEmailAtrributeValue(),"antonyCompa000000014@gmail.com");
+        Assert.assertEquals(customerPage.getEmailAtrributeValue(),"antonyCompa00000003@gmail.com");
     }
 
     @Test
-    public void User_03_Switch_Page() {
-//        //CustomerPage -> AddressPage
-//        addressPage = customerPage.openAddressPage(driver);
-//        //CustomerPage -> OrderPage
-//        oderPage = customerPage.openOderPage(driver);
-//        //AddressPage -> OrderPage
-//        oderPage = addressPage.openOrderPage(driver);
-//        //OderPage -> CustomerPage
-//        customerPage = oderPage.openCustomerPage(driver);
+    public void User_03_Page_Navigation() {
+        //CustomerPage -> AddressPage
+        addressPage = customerPage.openAddressPage();
+        //CustomerPage -> OrderPage
+        orderPage = customerPage.openOrderPage();
+        //OderPage -> CustomerPage
+        customerPage = orderPage.openCustomerPage();
+        //AddressPage -> OrderPage
+        orderPage = addressPage.openOrderPage();
 
     }
     @AfterClass

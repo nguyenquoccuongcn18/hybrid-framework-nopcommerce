@@ -1,13 +1,12 @@
-package pageObjects;
+package pageObjectsUser;
 
-import commons.BasePage;
-import commons.PageGeneratorManager;
 import org.openqa.selenium.WebDriver;
-import pageUIs.CustomerPageUI;
+import pageUserUIs.CustomerPageUI;
 
-public class CustomerPageObject extends BasePage {
+public class CustomerPageObject extends MyAccountSideBarPageObjects {
     WebDriver driver;
     public CustomerPageObject(WebDriver driver) {
+        super(driver);
         this.driver = driver;
     }
     public String getEmailAtrributeValue() {

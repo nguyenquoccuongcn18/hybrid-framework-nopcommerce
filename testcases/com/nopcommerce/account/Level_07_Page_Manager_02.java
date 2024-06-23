@@ -8,10 +8,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import pageObjects.CustomerPageObject;
-import pageObjects.HomePageObject;
-import pageObjects.LoginPageObject;
-import pageObjects.RegisterPageObject;
+import pageObjectsUser.CustomerPageObject;
+import pageObjectsUser.HomePageObject;
+import pageObjectsUser.LoginPageObjectUser;
+import pageObjectsUser.RegisterPageObject;
 
 
 public class Level_07_Page_Manager_02 extends BaseTest {
@@ -21,7 +21,7 @@ public class Level_07_Page_Manager_02 extends BaseTest {
      private HomePageObject homePage;
      private RegisterPageObject registerPage;
      private CustomerPageObject customerPage;
-     private LoginPageObject  loginPage;
+     private LoginPageObjectUser loginPage;
      private final String emailAddress = getEmailRandom();
 
 

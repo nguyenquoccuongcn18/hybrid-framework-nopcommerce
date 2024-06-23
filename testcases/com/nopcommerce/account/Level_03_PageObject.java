@@ -8,10 +8,10 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pageObjects.CustomerPageObject;
-import pageObjects.HomePageObject;
-import pageObjects.LoginPageObject;
-import pageObjects.RegisterPageObject;
+import pageObjectsUser.CustomerPageObject;
+import pageObjectsUser.HomePageObject;
+import pageObjectsUser.LoginPageObjectUser;
+import pageObjectsUser.RegisterPageObject;
 
 import java.time.Duration;
 import java.util.Random;
@@ -25,7 +25,7 @@ public class Level_03_PageObject extends BasePage {
      private HomePageObject homePage;
      private RegisterPageObject registerPage;
      private CustomerPageObject customerPage;
-     private LoginPageObject  loginPage;
+     private LoginPageObjectUser loginPage;
      private String emailAddress = getEmailRandom();
 
     @BeforeClass

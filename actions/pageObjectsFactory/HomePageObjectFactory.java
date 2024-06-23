@@ -1,11 +1,9 @@
 package pageObjectsFactory;
 
-import commons.BasePage;
 import commons.BasePageFactoty;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.*;
-import pageUIs.HomePageUI;
 
 public class HomePageObjectFactory extends BasePageFactoty {
     WebDriver driver ;
