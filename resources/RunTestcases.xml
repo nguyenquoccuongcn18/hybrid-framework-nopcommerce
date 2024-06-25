@@ -13,7 +13,7 @@
     <test name="Run on Firefox">
         <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="com.nopcommerce.account.Level_10_Switch_Role"></class>
+            <class name="com.nopcommerce.account.Level_12_Dynamic_Locator"></class>
         </classes>
 
     </test>
