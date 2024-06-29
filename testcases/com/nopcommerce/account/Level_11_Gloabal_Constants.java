@@ -34,7 +34,6 @@ public class Level_11_Gloabal_Constants extends BaseTest {
     @BeforeClass
     public void beforeClass(String browserName) {
         driver= getBrowerDriverAdminEndUser(browserName,endUserUrl);
-
         homePage = PageGeneratorManager.getHomePage(driver);
     }
 

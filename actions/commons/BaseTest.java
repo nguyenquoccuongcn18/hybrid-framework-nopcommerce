@@ -75,6 +75,24 @@ public class BaseTest {
         driver.get(url);
         return driver;
     }
+    protected WebDriver getBrowerDriver(String browserName, String url) {
+        BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
+
+        if (browser == BrowserList.CHROME){
+            driver = WebDriverManager.chromedriver().create();
+        }
+        else if(browser == BrowserList.FIREFOX){
+            driver = WebDriverManager.firefoxdriver().create();
+        }   else if(browser == BrowserList.EDGE){
+            driver = WebDriverManager.edgedriver().create();
+        }else {
+            throw new RuntimeException("Lỗi không mở được trình duyệt");
+        }
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.MILLISECONDS);
+        driver.get(url);
+        return driver;
+    }
     protected void closeBrowser(){
         driver.quit();
     }

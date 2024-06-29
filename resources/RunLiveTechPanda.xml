@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Data Table - Data Grid">
+    <parameter name="adminUrl" value="http://live.techpanda.org/index.php/backendlogin"/>
+    <parameter name="userUrl" value="http://live.techpanda.org/"/>
+
+    <test name="Run on Chrome">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="live.TechPanDa.Level_13_Handle_LiveTechPanDa"></class>
+        </classes>
+    </test>
+</suite>

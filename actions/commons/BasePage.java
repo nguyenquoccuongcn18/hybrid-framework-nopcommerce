@@ -84,7 +84,7 @@ public class BasePage {
     public void sendKeyToAlert (WebDriver driver , String keyToSend){
         waitForAlertPresent(driver).sendKeys(keyToSend);
     }
-    public void closeCurrentWindow(WebDriver driver){
+    public static void closeCurrentWindow(WebDriver driver){
         driver.close();
     }
     public Set<Cookie> getBrowserCookies(WebDriver driver){
@@ -200,6 +200,10 @@ public class BasePage {
     // Nếu ko dùng nhiều lần NEW lên dùng luôn
         new Select(getWebElement(driver,locator)).selectByVisibleText(itemValue);
     }
+    public void selectItemInDefaultDropdown(WebDriver driver, String locator, String itemValue,String ...restParam) {
+
+        new Select(getWebElement(driver,getDynamicLocator(locator,restParam))).selectByVisibleText(itemValue);
+    }
 
     public String getFirstSelectedTextInDefaultDropdown(WebDriver driver,String loator){
         return new Select(getWebElement(driver,loator)).getFirstSelectedOption().getText();
@@ -238,8 +242,17 @@ public class BasePage {
     }
 
     //Hàm này getListWebElement
+    public List<WebElement> getListWebElement(WebDriver driver, String locator){
+        return driver.findElements(getByLocator(locator));
+    }
+    public List<WebElement> getListWebElement(WebDriver driver, String locator,String... restParams){
+        return driver.findElements(getByLocator(getDynamicLocator(locator,restParams)));
+    }
     public int getListElementSize(WebDriver driver, String locator){
         return getListElement(driver, locator).size();
+    }
+    public int getListElementSize(WebDriver driver, String locator,String... restParams){
+        return getListElement(driver, getDynamicLocator(locator,restParams)).size();
     }
 
 
@@ -251,6 +264,11 @@ public class BasePage {
     public void checkToElement(WebDriver driver, String locator){
         if (!getWebElement(driver,locator).isSelected()){
             getWebElement(driver,locator).click();
+        }
+    }
+    public void checkToElement(WebDriver driver, String locator,String ...restParams){
+        if (!getWebElement(driver,getDynamicLocator(locator,restParams)).isSelected()){
+            getWebElement(driver,getDynamicLocator(locator,restParams)).click();
         }
     }
     /*
