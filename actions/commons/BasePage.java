@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageUserUIs.BasePageUI;
 
 import java.time.Duration;
 import java.util.List;
@@ -178,6 +179,9 @@ public class BasePage {
     }
     public void clickToElement(WebDriver driver, String locator,String...restParams){
         getWebElement(driver,getDynamicLocator(locator,restParams)).click();
+    }
+    public void clickToElement(WebDriver driver,WebElement element){
+        element.click();
     }
     public void sendKeysToElement(WebDriver driver, String locator, String valueToSend,String...restParams){
         getWebElement(driver,getDynamicLocator(locator,restParams)).clear();
@@ -404,15 +408,34 @@ public class BasePage {
     public void waitForElementInvisible(WebDriver driver,String locator){
         new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator)));
     }
+    public boolean waitForElementInvisibleBoolean(WebDriver driver,String locator){
+       return new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(locator)));
+    }
     public void waitForListElementInvisible(WebDriver driver,String locator){
         new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver,locator)));
+    }
+    public boolean waitForListElementInvisibleBoolean(WebDriver driver,String locator){
+        return new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver,locator)));
     }
     public void waitForElementClickable(WebDriver driver,String locator){
         new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.elementToBeClickable(getWebElement(driver,locator)));
     }
+    public void waitForElementClickable(WebDriver driver,WebElement element){
+        new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.elementToBeClickable(element));
+    }
     public void waitForElementClickable(WebDriver driver,String locator,String...restParams){
         new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.elementToBeClickable(getWebElement(driver,getDynamicLocator(locator,restParams))));
     }
+    public void uploadMultipleFiles(WebDriver driver,String...filesNames){
+        String filePath = GlobalConstants.UPLOAD_PATH;
+        String fullFileName = "";
+        for(String file : filesNames){
+            fullFileName = fullFileName + filePath + file +"\n";
+        }
+            fullFileName=fullFileName.trim();
+            getWebElement(driver, BasePageUI.UPLOAD_FILE_TYPE).sendKeys(fullFileName);
+    }
+
     public long longTimeout = GlobalConstants.LONG_TIMEOUT;
     public long shortTimeout = GlobalConstants.SHORT_TIMEOUT;
 
