@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="NopCommerce">
+    <parameter name="url" value="https://demo.nopcommerce.com/"/>
+ <listeners>
+     <listener class-name="commons.MethodListener"></listener>
+ </listeners>
+
+    <test name="Run on Firefox">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.nopcommerce.account.Level_15_Assert_Verify"></class>
+        </classes>
+
+    </test>
+</suite>

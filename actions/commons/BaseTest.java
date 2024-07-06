@@ -1,17 +1,66 @@
 package commons;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.Point;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.Reporter;
+import org.testng.annotations.BeforeSuite;
 
+import java.io.File;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
+    protected final Logger log;
+//    protected final Log log;
+
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+
     protected WebDriver driver;
+
+    @BeforeSuite
+    public void deleteFileInReport() {
+        // Remove all file in ReportNG screenshot (image)
+        deleteAllFileInFolder("reportNGImage");
+
+        // Remove all file in Allure attachment (json file)
+        deleteAllFileInFolder("allure-json");
+    }
+    public void deleteAllFileInFolder(String driver) {
+        try {
+            String pathFolderDownload = GlobalConstants.REPORTNG_IMAGE_PATH;
+            File file = new File(pathFolderDownload);
+            File[] listOfFiles = file.listFiles();
+            if (listOfFiles.length != 0) {
+                for (int i = 0; i < listOfFiles.length; i++) {
+                    if (listOfFiles[i].isFile() && !listOfFiles[i].getName().equals("environment.properties")) {
+                        new File(listOfFiles[i].toString()).delete();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+    }
+
+//    public BaseTest() {
+//        log = LogFactory.getLog(getClass());
+//    }
+
+    public BaseTest() {
+        log = LogManager.getLogger(getClass());
+    }
+
 
     protected WebDriver getBrowerDriver(String browserName){
         BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
@@ -46,6 +95,8 @@ public class BaseTest {
         driver.get("https://demo.nopcommerce.com/");
         return driver;
     }
+
+
     protected String getEmailRandom(){
         Random rand = new Random();
         return "John Smith" + rand.nextInt(100) + "@gmail.com";
@@ -93,6 +144,51 @@ public class BaseTest {
         driver.get(url);
         return driver;
     }
+    protected boolean verifyTrue(boolean condition) {
+        boolean pass = true;
+        try {
+            Assert.assertTrue(condition);
+            log.info("--------------PASSED--------------");
+        } catch (Throwable e) {
+            log.info("--------------FAILED--------------");
+            pass = false;
+
+            VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
+            Reporter.getCurrentTestResult().setThrowable(e);
+        }
+        return pass;
+    }
+
+    protected boolean verifyFalse(boolean condition) {
+        boolean pass = true;
+        try {
+
+            Assert.assertFalse(condition);
+            log.info("--------------PASSED--------------");
+        } catch (Throwable e) {
+            log.info("--------------FAILED--------------");
+            pass = false;
+            VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
+            Reporter.getCurrentTestResult().setThrowable(e);
+        }
+        return pass;
+    }
+
+    protected boolean verifyEquals(Object actual, Object expected) {
+        boolean pass = true;
+        try {
+            Assert.assertEquals(actual, expected);
+            log.info("--------------PASSED--------------");
+        } catch (Throwable e) {
+            log.info("--------------FAILED--------------");
+            pass = false;
+            VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
+            Reporter.getCurrentTestResult().setThrowable(e);
+        }
+        return pass;
+    }
+    //
+
     protected void closeBrowser(){
         driver.quit();
     }
