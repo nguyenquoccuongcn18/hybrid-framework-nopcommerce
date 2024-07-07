@@ -19,4 +19,5 @@ public class GlobalConstants {
     public static final String TEST_DATA_FOLDER = OS_NAME + "/src/test/resources/testData/";
     public static final String TEST_DATA_FILE = TEST_DATA_FOLDER + "data.xlsx";
 
+    public static final String JAVA_VERSION = System.getProperty("java.version");;
 }

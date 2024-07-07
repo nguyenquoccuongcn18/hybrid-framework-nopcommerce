@@ -1,11 +1,11 @@
 package commons;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.opentelemetry.api.logs.Logger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -18,7 +18,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
-    protected final Logger log;
+//    protected final Logger log;
 //    protected final Log log;
 
     public WebDriver getDriver() {
@@ -57,9 +57,9 @@ public class BaseTest {
 //        log = LogFactory.getLog(getClass());
 //    }
 
-    public BaseTest() {
-        log = LogManager.getLogger(getClass());
-    }
+//    public BaseTest() {
+//        log = LogManager.getLogger(getClass());
+//    }
 
 
     protected WebDriver getBrowerDriver(String browserName){
@@ -148,9 +148,9 @@ public class BaseTest {
         boolean pass = true;
         try {
             Assert.assertTrue(condition);
-            log.info("--------------PASSED--------------");
+//            log.info("--------------PASSED--------------");
         } catch (Throwable e) {
-            log.info("--------------FAILED--------------");
+//            log.info("--------------FAILED--------------");
             pass = false;
 
             VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
@@ -164,9 +164,9 @@ public class BaseTest {
         try {
 
             Assert.assertFalse(condition);
-            log.info("--------------PASSED--------------");
+//            log.info("--------------PASSED--------------");
         } catch (Throwable e) {
-            log.info("--------------FAILED--------------");
+//            log.info("--------------FAILED--------------");
             pass = false;
             VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
             Reporter.getCurrentTestResult().setThrowable(e);
@@ -178,9 +178,9 @@ public class BaseTest {
         boolean pass = true;
         try {
             Assert.assertEquals(actual, expected);
-            log.info("--------------PASSED--------------");
+//            log.info("--------------PASSED--------------");
         } catch (Throwable e) {
-            log.info("--------------FAILED--------------");
+//            log.info("--------------FAILED--------------");
             pass = false;
             VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
             Reporter.getCurrentTestResult().setThrowable(e);
