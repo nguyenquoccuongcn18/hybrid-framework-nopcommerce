@@ -26,5 +26,6 @@
     <orderEntry type="library" name="bson-3.0.4" level="project" />
     <orderEntry type="library" name="rxjava-3.0.4" level="project" />
     <orderEntry type="library" name="extentreports-5.1.0" level="project" />
+    <orderEntry type="library" name="allure-model-2.24.0" level="project" />
   </component>
 </module>

@@ -34,11 +34,11 @@ public class BaseTest {
         deleteAllFileInFolder("reportNGImage");
 
         // Remove all file in Allure attachment (json file)
-        deleteAllFileInFolder("allure-json");
+        deleteAllFileInFolder("allure-results");
     }
-    public void deleteAllFileInFolder(String driver) {
+    public void deleteAllFileInFolder(String folderName){
         try {
-            String pathFolderDownload = GlobalConstants.REPORTNG_IMAGE_PATH;
+            String pathFolderDownload = GlobalConstants.RELATIVE_PROJECT_PATH + File.separator + folderName;
             File file = new File(pathFolderDownload);
             File[] listOfFiles = file.listFiles();
             if (listOfFiles.length != 0) {

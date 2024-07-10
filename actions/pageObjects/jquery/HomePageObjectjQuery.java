@@ -1,6 +1,7 @@
 package pageObjects.jquery;
 
 import commons.BasePage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import pageUIs.jquery.HomePageUI;
@@ -16,6 +17,7 @@ public class HomePageObjectjQuery extends BasePage {
     public HomePageObjectjQuery(WebDriver driver) {
         this.driver = driver;
     }
+    @Step("Input to Column textbox with value is {0} and {1}")
     public void inputToColomnTextBoxByName(String columnName , String valueSendkey){
         waitForElementVisible(driver, HomePageUI.COLUMN_TEXTBOX_BY_NAME,columnName);
         sendKeysToElement(driver,  HomePageUI.COLUMN_TEXTBOX_BY_NAME,valueSendkey, columnName);
