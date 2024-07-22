@@ -22,6 +22,8 @@ import io.qameta.allure.Attachment;
         return (byte[]) ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
+
+
     // Text attachments for Allure
     @Attachment(value = "Text attachment of {0}", type = "text/plain")
     public static String saveTextLog(String message) {

@@ -1,14 +1,16 @@
 package pageObjectsUser;
 
+import commons.BaseElement;
 import commons.BasePage;
 import org.openqa.selenium.WebDriver;
 import pageUserUIs.LoginPageUI;
 
-public class LoginPageObjectUser extends BasePage  {
+public class LoginPageObjectUser extends BaseElement {
     WebDriver driver;
     String emailUser ="antonyCompa00000003@gmail.com";
     String passwordUser="12345678";
     public LoginPageObjectUser(WebDriver driver) {
+        super(driver);
         this.driver = driver;
     }
     public void enterToEmailTextBox(String emailAddressLogin) {

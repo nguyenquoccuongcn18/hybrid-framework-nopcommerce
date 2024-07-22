@@ -7,11 +7,12 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageUserUIs.BasePageUI;
+import pageUserUIs.BaseElementUI;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class BasePage {
     //05/06/2024 - 63 hàm
@@ -162,7 +163,7 @@ public class BasePage {
         }else {
             throw new RuntimeException("Locator Type is not valid.");
         }
-//        System.out.println(by);
+        System.out.println(by);
         return by;
 
     }
@@ -183,9 +184,10 @@ public class BasePage {
     public void clickToElement(WebDriver driver,WebElement element){
         element.click();
     }
-    public void sendKeysToElement(WebDriver driver, String locator, String valueToSend,String...restParams){
+    public boolean sendKeysToElement(WebDriver driver, String locator, String valueToSend, String...restParams){
         getWebElement(driver,getDynamicLocator(locator,restParams)).clear();
         getWebElement(driver,getDynamicLocator(locator,restParams)).sendKeys(valueToSend);
+        return false;
     }
     public String getDynamicLocator(String locator ,String ...restParams){
         return locator = String.format(locator,(Object[]) restParams);
@@ -230,8 +232,8 @@ public class BasePage {
 
     }
 
-    public String getElementAttribute(WebDriver driver, String locator,String AttributeName){
-        return getWebElement(driver,locator).getAttribute(AttributeName);
+    public String getElementAttribute(WebDriver driver, String locator,String AttributeName,String... restParams){
+        return getWebElement(driver,getDynamicLocator(locator,restParams)).getAttribute(AttributeName);
     }
 
     public String getElementCssValue(WebDriver driver, String locator,String CssPropertyName){
@@ -259,8 +261,9 @@ public class BasePage {
         return getListElement(driver, getDynamicLocator(locator,restParams)).size();
     }
 
-
-
+    public void setImplicitWait(WebDriver driver, long timeout){
+        driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
+    }
 
 /*
 * Apply for checkbox and radio button
@@ -284,8 +287,35 @@ public class BasePage {
         }
     }
 
+    //Case 1: Element hiển thị và có trong html
+    //Case 2: Element ko hiển thị và có trong html
     public boolean isElementDisplay(WebDriver driver, String locator,String...restParams){
         return getWebElement(driver,getDynamicLocator(locator,restParams)).isDisplayed();
+    }
+    public boolean isElementDisplayTrycatch(WebDriver driver, String locator){
+        boolean status ;
+        try{
+            status = getWebElement(driver,locator).isDisplayed();
+        } catch (NoSuchElementException e){
+            status = false;
+    }
+            return status;
+    }
+    public boolean isElementUndisplay(WebDriver driver, String locator){
+        setImplicitWait(driver,shortTimeout);
+        List<WebElement> elements = getListWebElement(driver,locator);
+        setImplicitWait(driver,longTimeout);
+
+        if(elements.size() > 0 && elements.get(0).isDisplayed()){//Element có trên UI và có trong DOM ->false
+            System.out.println("01 - Element có trên UI và có trong DOM ");
+            return false;
+        }else if(elements.size() == 1 && !elements.get(0).isDisplayed()){//Element ko có trên UI và có trong DOM
+            System.out.println("02 - Element ko có trên UI và có trong DOM");
+            return true;
+        }else {
+            System.out.println("03 - Element ko có trên UI và ko có trong DOM");
+            return true;
+        }
     }
     public boolean isElementSelected(WebDriver driver, String locator){
         return getWebElement(driver,locator).isSelected();
@@ -405,8 +435,8 @@ public class BasePage {
         new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.visibilityOfAllElements(getListElement(driver,getDynamicLocator(locator,restParams))));
     }
 
-    public void waitForElementInvisible(WebDriver driver,String locator){
-        new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator)));
+    public void waitForElementInvisible(WebDriver driver,String locator,String...restParams){
+        new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(getDynamicLocator(locator,restParams))));
     }
     public boolean waitForElementInvisibleBoolean(WebDriver driver,String locator){
        return new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(locator)));
@@ -433,7 +463,7 @@ public class BasePage {
             fullFileName = fullFileName + filePath + file +"\n";
         }
             fullFileName=fullFileName.trim();
-            getWebElement(driver, BasePageUI.UPLOAD_FILE_TYPE).sendKeys(fullFileName);
+            getWebElement(driver, BaseElementUI.UPLOAD_FILE_TYPE).sendKeys(fullFileName);
     }
 
     public long longTimeout = GlobalConstants.LONG_TIMEOUT;

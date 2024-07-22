@@ -31,4 +31,8 @@ public class PageGeneratorManager {
     public static AdminDashboardPageObjects getAdminDashboardPage(WebDriver driver){
         return new AdminDashboardPageObjects(driver);
     }
+
+//    public static MyAccountSideBarPageObjects getCustomerPage(WebDriver driver) {
+//        return new MyAccountSideBarPageObjects(driver);
+//    }
 }

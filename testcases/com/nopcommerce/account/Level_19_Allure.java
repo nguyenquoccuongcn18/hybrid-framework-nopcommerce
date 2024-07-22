@@ -12,6 +12,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjectsUser.HomePageObject;
 import pageObjectsUser.RegisterPageObject;
+import reportConfig.AllureTestListener;
 
 @Epic("Account")
 @Feature("Create")
@@ -42,15 +43,15 @@ public class Level_19_Allure extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     @Test
     public void Register_01_Validate () {
-
-        Assert.assertFalse(homePage.isRegisterLinkDisplayed());
+        Assert.assertTrue(homePage.isRegisterLinkDisplayed());
 
         registerPage = homePage.clickToRegisterLink();
 
         registerPage.clickToRegisterButton();
 
-        Assert.assertEquals(registerPage.getFirstNameErrorMessageText(),"First name is required.");
+        Assert.assertEquals(registerPage.getFirstNameErrorMessageText(),"First name is required");
 
+//        Assert.assertEquals(registerPage.getLastNameErrorMessageText(),"Last name is required.");
         verifyEquals(registerPage.getLastNameErrorMessageText(),"Last name is required.");
 
 

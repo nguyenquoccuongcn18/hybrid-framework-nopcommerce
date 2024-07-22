@@ -1,14 +1,16 @@
 package pageObjectsUser;
 
+import commons.BaseElement;
 import commons.BasePage;
 import commons.PageGeneratorManager;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pageUserUIs.HomePageUI;
 
-public class HomePageObject extends BasePage {
+public class HomePageObject extends BaseElement {
     WebDriver driver ;
     public HomePageObject(WebDriver driver) {
+        super(driver);
         this.driver = driver;
     }
     @Step("Click register to link")
@@ -46,4 +48,6 @@ public class HomePageObject extends BasePage {
     public boolean isRegisterLinkDisplayed() {
         return Boolean.parseBoolean(null);
     }
+
+
 }
