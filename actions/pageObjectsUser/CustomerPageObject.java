@@ -22,8 +22,8 @@ public class CustomerPageObject extends BaseElement {
     }
 
     public String getLastNameAtrributeValue() {
-        waitForElementInvisible(driver, CustomerPageUI.EMAIL_ADDRESS_TEXTBOX);
-        return getElementAttribute(driver, CustomerPageUI.EMAIL_ADDRESS_TEXTBOX,"value");
+        waitForElementInvisible(driver, CustomerPageUI.LASTNAME_TEXTBOX);
+        return getElementAttribute(driver, CustomerPageUI.LASTNAME_TEXTBOX,"value");
     }
 
 

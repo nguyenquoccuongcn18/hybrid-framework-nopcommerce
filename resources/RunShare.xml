@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="NopCommerce">
+    <parameter name="adminUrl" value=""/>
+    <parameter name="userUrl" value="https://demo.nopcommerce.com/"/>
+
+
+    <test name="Run on Firefox" preserve-order="true">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="cookie.Common_Register"></class>
+            <class name="cookie.Order"></class>
+            <class name="cookie.Payment"></class>
+            <class name="cookie.Product"></class>
+        </classes>
+
+    </test>
+</suite>

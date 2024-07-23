@@ -163,7 +163,7 @@ public class BasePage {
         }else {
             throw new RuntimeException("Locator Type is not valid.");
         }
-        System.out.println(by);
+//        System.out.println(by);
         return by;
 
     }

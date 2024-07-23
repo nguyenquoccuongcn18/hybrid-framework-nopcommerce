@@ -99,7 +99,7 @@ public class BaseTest {
 
     protected String getEmailRandom(){
         Random rand = new Random();
-        return "John Smith" + rand.nextInt(100) + "@gmail.com";
+        return "JohnSmith" + rand.nextInt(1000) + "@gmail.com";
     }
     protected void sleepInsecons(long timeInsecons) {
         try {

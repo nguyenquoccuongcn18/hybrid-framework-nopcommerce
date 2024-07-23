@@ -15,6 +15,8 @@ public class HomePageUI {
 
     public static final String LOGIN_LINK = "xpath=//a[@class='ico-login']";
 
+    public static final String LOGIN_SUCCESS = "xpath=//button[normalize-space()='Log in']";
+
 
 
 
