@@ -44,6 +44,10 @@ import io.qameta.allure.Attachment;
         saveTextLog(getTestMethodName(iTestResult) + " failed and screenshot taken!");
     }
 
+
+
+
+
     @Override
     public void onStart(ITestContext iTestContext) {
         // TODO Auto-generated method stub

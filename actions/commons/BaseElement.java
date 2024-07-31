@@ -62,4 +62,10 @@ public class BaseElement extends BasePage{
         clickToElement(driver, MyAccountSideBarPageUI.ORDERS_MENU_LEFT);
         return PageGeneratorManager.getOrderPage(driver);
     }
+
+    public boolean isRegisterLinkDisplayed() {
+        waitForElementInvisible(driver,BaseElementUI.DYNAMIC_TEXTBOX_BY_ID);
+        clickToElement(driver, MyAccountSideBarPageUI.ORDERS_MENU_LEFT);
+        return PageGeneratorManager.getOrderPage(driver).isRegisterLinkDisplayed();
+    }
 }

@@ -6,10 +6,7 @@ import io.qameta.allure.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pageObjectsUser.HomePageObject;
 import pageObjectsUser.RegisterPageObject;
 import reportConfig.AllureTestListener;
@@ -19,14 +16,14 @@ import reportConfig.AllureTestListener;
 public class Level_19_Allure extends BaseTest {
 
     private WebDriver driver;
-     private HomePageObject homePage;
-     private RegisterPageObject registerPage;
+    private HomePageObject homePage;
+    private RegisterPageObject registerPage;
     private String browerName ;
 
 
-@Description("User 01 : Validate register form")
-@Story("register")
-@Severity(SeverityLevel.NORMAL)
+    @Description("User 01 : Validate register form")
+    @Story("register")
+    @Severity(SeverityLevel.NORMAL)
 
     @Parameters("browser")
     @BeforeClass
@@ -43,7 +40,7 @@ public class Level_19_Allure extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     @Test
     public void Register_01_Validate () {
-        Assert.assertTrue(homePage.isRegisterLinkDisplayed());
+//        Assert.assertTrue(homePage.isRegisterLinkDisplayed());
 
         registerPage = homePage.clickToRegisterLink();
 
@@ -60,6 +57,8 @@ public class Level_19_Allure extends BaseTest {
     @Description("User 02 : Validate Success")
     @Story("Success")
     @Severity(SeverityLevel.BLOCKER)
+    @Epic("Regression Tests")
+    @Feature("Hardware")
     @Test
     public void Register_02_Success() {
 

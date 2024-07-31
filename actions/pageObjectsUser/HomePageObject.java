@@ -50,10 +50,12 @@ public class HomePageObject extends BaseElement {
         clickToElement(driver, HomePageUI.LOGIN_SUCCESS);
         return PageGeneratorManager.getLoginPageUser(driver);
     }
-    @Step("Register link is displayed")
-    public boolean isRegisterLinkDisplayed() {
-        return Boolean.parseBoolean(null);
-    }
+
+
+//    @Step("Register link is displayed")
+//    public boolean isRegisterLinkDisplayed() {
+//        return Boolean.parseBoolean(null);
+//    }
 
 
 }
