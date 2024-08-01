@@ -8,6 +8,8 @@
 
 <!--     allure serve .\allure-results\  Câu lệnh chạy Report Allure trên terminal-->
 
+<!--     Run Allure trên interleji-->
+<!--     -javaagent:$ModuleFileDir$"\libAllure\aspectjweaver-1.9.20.jar"-->
 
  </listeners>
 
