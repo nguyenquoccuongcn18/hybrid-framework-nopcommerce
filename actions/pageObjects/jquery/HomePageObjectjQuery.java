@@ -45,7 +45,7 @@ public class HomePageObjectjQuery extends BasePage {
         clickToElement(driver, HomePageUI.CLICK_CLOSE_POPUP);
     }
     //Lấy dữ liệu từ UI
-    public List<String> getAllPageValuesByColumnNumber(String columnName) {
+    public List<String>ágetAllPageValuesByColumnNumber(String columnName) {
         //Lưu lại bằng List
         List<String> allValues = new ArrayList<String>();
 
@@ -96,5 +96,10 @@ public class HomePageObjectjQuery extends BasePage {
         checkToElement(driver,HomePageUI.DYNAMIC_CHECKBOX_BY_ROW_INDEX_AND_COLUMN_INDEX,rowIndex,String.valueOf(columnIndex));
 
 
+    }
+
+    public List<String> getAllPageValuesByColumnNumber(String country) {
+
+        return null;
     }
 }

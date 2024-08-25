@@ -65,17 +65,17 @@ public class Level_13_Handle_DataTable extends BaseTest {
     }
     @Test
     public void TC_05_Get_All_Column_Values() {
-//        //UI
-//        allValuesUI = homePage.getAllPageValuesByColumnNumber("Country");
-//        //API
-//        allValuesAPI = homePage.getAllPageValuesByColumnNameInAPI("Country");
-//
-//        //DB
-//        allValuesDB = homePage.getAllPageValuesByColumnNameInDB("Country");
-//        Assert.assertEquals(allValuesUI,allValuesDB);
-//
-//
-//        homePage.getAllPageValuesByColumnNumber("Males");
+        //UI
+        allValuesUI = homePage.getAllPageValuesByColumnNumber("Country");
+        //API
+        allValuesAPI = homePage.getAllPageValuesByColumnNameInAPI("Country");
+
+        //DB
+        allValuesDB = homePage.getAllPageValuesByColumnNameInDB("Country");
+        Assert.assertEquals(allValuesUI,allValuesDB);
+
+
+        homePage.getAllPageValuesByColumnNumber("Males");
     }
     @Test(testName = "TC06")
     public void TC_06_Action_By_Index() {

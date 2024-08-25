@@ -20,6 +20,8 @@ import java.util.logging.Logger;
 
 public class BaseTest {
     private Logger log;
+    private String browserName;
+    private String url;
 //    protected final Logger log;
 //    protected final Log log;
 
@@ -65,6 +67,7 @@ public class BaseTest {
 
 
     protected WebDriver getBrowerDriver(String browserName){
+        this.browserName = browserName;
         BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
 
         if (browser == BrowserList.CHROME){
@@ -94,7 +97,8 @@ public class BaseTest {
 
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.MILLISECONDS);
-        driver.get("https://demo.nopcommerce.com/");
+//        driver.get("https://demo.nopcommerce.com/");
+//        driver.get(url);
         return driver;
     }
 

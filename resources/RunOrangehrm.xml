@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="NopCommerce">
-    <parameter name="url" value="https://demo.nopcommerce.com/"/>
+    <parameter name="url" value="http://localhost:90/orangehrm"/>
  <listeners>
      <listener class-name="commons.MethodListener"></listener>
      <listener class-name="reportConfig.AllureTestListener"></listener>
-
-<!--     allure serve .\allure-results\  Câu lệnh chạy Report Allure trên terminal-->
-
-<!--     Run Allure trên interleji-->
-<!--     -javaagent:$ModuleFileDir$"\libAllure\aspectjweaver-1.9.20.jar"-->
 
  </listeners>
 
     <test name="Run on chrome">
         <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="com.nopcommerce.account.Level_19_Allure"></class>
+            <class name="orangehrm.PIM.PIM_01_Employee_List"></class>
         </classes>
     </test>
 </suite>
