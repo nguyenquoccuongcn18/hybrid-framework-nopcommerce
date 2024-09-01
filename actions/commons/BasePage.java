@@ -72,7 +72,7 @@ public class BasePage {
 
     public Alert waitForAlertPresent(WebDriver driver){
         Duration timeout = Duration.ofMillis(longTimeout);
-       return new WebDriverWait(driver,timeout).until(ExpectedConditions.alertIsPresent());
+        return new WebDriverWait(driver,timeout).until(ExpectedConditions.alertIsPresent());
     }
     public void acceptToAlert (WebDriver driver){
         waitForAlertPresent(driver).accept();
@@ -81,7 +81,7 @@ public class BasePage {
         waitForAlertPresent(driver).dismiss();
     }
     public String getTextToAlert (WebDriver driver){
-       return  waitForAlertPresent(driver).getText();
+        return  waitForAlertPresent(driver).getText();
     }
     public void sendKeyToAlert (WebDriver driver , String keyToSend){
         waitForAlertPresent(driver).sendKeys(keyToSend);
@@ -201,9 +201,9 @@ public class BasePage {
     }
 
     public void selectItemInDefaultDropdown(WebDriver driver, String locator, String itemValue){
-    //        Select select = new Select(getWebElement(driver,locator));
-    //        select.selectByVisibleText(itemValue);
-    // Nếu ko dùng nhiều lần NEW lên dùng luôn
+        //        Select select = new Select(getWebElement(driver,locator));
+        //        select.selectByVisibleText(itemValue);
+        // Nếu ko dùng nhiều lần NEW lên dùng luôn
         new Select(getWebElement(driver,locator)).selectByVisibleText(itemValue);
     }
     public void selectItemInDefaultDropdown(WebDriver driver, String locator, String itemValue,String ...restParam) {
@@ -216,7 +216,7 @@ public class BasePage {
     }
 
     public boolean isDefaultDropdownMultiple(WebDriver driver, String loator){
-       return new Select(getWebElement(driver,loator)).isMultiple();
+        return new Select(getWebElement(driver,loator)).isMultiple();
     }
 
     public void SelectItemDropdown (WebDriver driver,String parrentLocator, String ChilLocator ,String ItemTextExpected){
@@ -265,9 +265,9 @@ public class BasePage {
         driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
     }
 
-/*
-* Apply for checkbox and radio button
-* */
+    /*
+     * Apply for checkbox and radio button
+     * */
     public void checkToElement(WebDriver driver, String locator){
         if (!getWebElement(driver,locator).isSelected()){
             getWebElement(driver,locator).click();
@@ -298,8 +298,8 @@ public class BasePage {
             status = getWebElement(driver,locator).isDisplayed();
         } catch (NoSuchElementException e){
             status = false;
-    }
-            return status;
+        }
+        return status;
     }
     public boolean isElementUndisplay(WebDriver driver, String locator){
         setImplicitWait(driver,shortTimeout);
@@ -338,7 +338,7 @@ public class BasePage {
         action.doubleClick(getWebElement(driver,locator)).perform();
     }
     public void hoverToElement(WebDriver driver, String locator){
-         new Actions(driver).moveToElement(getWebElement(driver,locator)).perform();
+        new Actions(driver).moveToElement(getWebElement(driver,locator)).perform();
     }
     public void rightClickToElement(WebDriver driver, String locator){
         new Actions(driver).moveToElement(getWebElement(driver,locator)).perform();
@@ -439,7 +439,7 @@ public class BasePage {
         new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(getDynamicLocator(locator,restParams))));
     }
     public boolean waitForElementInvisibleBoolean(WebDriver driver,String locator){
-       return new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(locator)));
+        return new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(locator)));
     }
     public void waitForListElementInvisible(WebDriver driver,String locator){
         new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver,locator)));
@@ -462,8 +462,8 @@ public class BasePage {
         for(String file : filesNames){
             fullFileName = fullFileName + filePath + file +"\n";
         }
-            fullFileName=fullFileName.trim();
-            getWebElement(driver, BaseElementUI.UPLOAD_FILE_TYPE).sendKeys(fullFileName);
+        fullFileName=fullFileName.trim();
+        getWebElement(driver, BaseElementUI.UPLOAD_FILE_TYPE).sendKeys(fullFileName);
     }
 
     public long longTimeout = GlobalConstants.LONG_TIMEOUT;

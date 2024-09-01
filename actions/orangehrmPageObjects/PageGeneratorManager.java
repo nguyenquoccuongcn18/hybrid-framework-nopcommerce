@@ -1,11 +1,13 @@
 package orangehrmPageObjects;
 
 import org.openqa.selenium.WebDriver;
-import pageObjectsUser.HomePageObject;
 
 public class PageGeneratorManager {
-    public static AddEmployeeObjects getEmployeePage(WebDriver driver){
+    public static AddEmployeeObjects getAddEmployeePage(WebDriver driver){
         return new AddEmployeeObjects(driver);
+    }
+    public static EmployeeListObjects getEmployeeListPage(WebDriver driver){
+        return new EmployeeListObjects(driver);
     }
     public static ContactDetailObjects getContactDetailPage(WebDriver driver){
         return new ContactDetailObjects(driver);
@@ -37,5 +39,6 @@ public class PageGeneratorManager {
     public static SalaryObjects getSalaryPage(WebDriver driver){
         return new SalaryObjects(driver);
     }
+
 
 }
