@@ -33,4 +33,11 @@ public class EmployeeListObjects extends BaseActions {
         waitForSpinnerIconInvisible();
         return PageGeneratorManager.getAddEmployeePage(driver);
     }
+
+    public PersonalDetailObjects clickToEditIconByEmployeeID(String employeeID) {
+        waitForElementVisible(driver,EmployeeListUIs.EDIT_BUTTON_BY_EMPLOYEE_ID,employeeID);
+        clickToElement(driver, EmployeeListUIs.EDIT_BUTTON_BY_EMPLOYEE_ID,employeeID);
+        waitForSpinnerIconInvisible();
+        return PageGeneratorManager.getPersonalDetailPage(driver);
+    }
 }

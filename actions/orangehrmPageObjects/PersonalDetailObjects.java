@@ -1,6 +1,7 @@
 package orangehrmPageObjects;
 
 import commons.BasePage;
+import orangehrmUIs.BaseActionUIs;
 import orangehrmUIs.PersonalDetailUIs;
 import org.openqa.selenium.WebDriver;
 
@@ -35,5 +36,58 @@ public class PersonalDetailObjects extends BaseActions {
     public boolean isPersonalDetailHeaderDisplay() {
         waitForElementVisible(driver, PersonalDetailUIs.PERSONAL_DETAIL_PAGE_HEADER);
         return isElementDisplay(driver, PersonalDetailUIs.PERSONAL_DETAIL_PAGE_HEADER);
+    }
+
+    public void enterToNicknameTextBox(String nickName) {
+        waitForElementVisible(driver, PersonalDetailUIs.NICKNAME_TEXTBOX);
+        sendKeysToElement(driver, PersonalDetailUIs.NICKNAME_TEXTBOX, nickName);
+    }
+
+    public void enterToDriverLicenseNumberTextBox(String driverLicense) {
+        waitForElementVisible(driver, PersonalDetailUIs.DRIVER_LICENSE_NUMBER_TEXBOX);
+        sendKeysToElement(driver, PersonalDetailUIs.DRIVER_LICENSE_NUMBER_TEXBOX, driverLicense);
+    }
+
+    public void enterToDriverLicenseExpiryDatePicker(String driverLicenseExpiryDate) {
+        waitForElementVisible(driver, PersonalDetailUIs.DRIVER_EXPIRY_DATE_PICKER);
+        sendKeysToElement(driver, PersonalDetailUIs.DRIVER_EXPIRY_DATE_PICKER, driverLicenseExpiryDate);
+    }
+
+    public void enterToSocialSecurityNumberTextBox(String ssNumber) {
+        waitForElementVisible(driver, PersonalDetailUIs.SOCIAL_SCURITY_NUMBER_TEXTBOX);
+        sendKeysToElement(driver, PersonalDetailUIs.SOCIAL_SCURITY_NUMBER_TEXTBOX, ssNumber);
+    }
+
+    public void enterToSocialInsuranceNumberTextBox(String siNumber) {
+        waitForElementVisible(driver, PersonalDetailUIs.SOCIAL_INSURANCE_NUMBER_TEXTBOX);
+        sendKeysToElement(driver, PersonalDetailUIs.SOCIAL_INSURANCE_NUMBER_TEXTBOX, siNumber);
+    }
+
+    public void selectToNationalityDropdown(String nationality) {
+        waitForElementClickable(driver,PersonalDetailUIs.NATIONALITY_DROPDOWN_PARENT);
+        selectItemInDropdown(driver, PersonalDetailUIs.NATIONALITY_DROPDOWN_PARENT,PersonalDetailUIs.NATIONALITY_DROPDOWN_CHILD_ITEM,nationality);
+    }
+
+    public void selectToMaritalStatusDropdown(String maritalStatusDropdown) {
+        waitForElementClickable(driver,PersonalDetailUIs.MARITAL_STATUS_DROPDOWN_PARENT);
+        selectItemInDropdown(driver, PersonalDetailUIs.MARITAL_STATUS_DROPDOWN_PARENT,PersonalDetailUIs.MARITAL_STATUS_DROPDOWN_CHILD_ITEM,maritalStatusDropdown);
+    }
+
+    public void enterToDateOfBirthDatePicker(String dateOfBirth) {
+        waitForElementVisible(driver, PersonalDetailUIs.DATE_OF_BIRTH_PICKER);
+        sendKeysToElement(driver, PersonalDetailUIs.DATE_OF_BIRTH_PICKER, dateOfBirth);
+    }
+
+    public void clickToSaveButtonAtPersonalDetailPart() {
+        waitForElementClickable(driver,PersonalDetailUIs.SAVE_BUTTON_AT_PERSON_DETAIL);
+        clickToElement(driver,PersonalDetailUIs.SAVE_BUTTON_AT_PERSON_DETAIL);
+    }
+
+    public String getNationalityDropdownSelectedText() {
+        return getElementText(driver, PersonalDetailUIs.NATIONALITY_DROPDOWN_SELECTED_TEXT);
+    }
+
+    public String getMaritalStatusDropdownSelectedText() {
+        return getElementText(driver, PersonalDetailUIs.MARITAL_STATUS_DROPDOWN_SELECTED_TEXT);
     }
 }

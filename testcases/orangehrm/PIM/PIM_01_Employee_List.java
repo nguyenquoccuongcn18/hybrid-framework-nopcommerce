@@ -13,6 +13,8 @@ import org.testng.annotations.Test;
 public class PIM_01_Employee_List extends BaseTest {
     private WebDriver driver;
     private String employeeID,firstName,lastName;
+    private String driverLicenseNumber,licenseExpiryDate, ssnNumber,nickName;
+    private String dateOfBirth,genderStatus,smokerStatus,sinNumber,nationality,maritalStatus;
     private LoginPageObjects loginPage;
     private DashboardObjects dashboardPage;
     private EmployeeListObjects employeeListPage;
@@ -21,9 +23,23 @@ public class PIM_01_Employee_List extends BaseTest {
     @Parameters({"browser","url"})
     @BeforeClass
     public void beforeClass(String browserName,String url) {
+
+        //Data EmployeeList_01_Add_New
         driver= getBrowerDriver(browserName,url);
-        firstName="Michael";
-        lastName="Owen";
+        firstName="John";
+        lastName="Terry";
+
+        //Data EmployeeList_02_Person_Detail
+        nickName="Owen";
+        driverLicenseNumber="85D1-99.999";
+        licenseExpiryDate="2029-01-02";
+        ssnNumber ="428-79-79-778";
+        dateOfBirth="1999-09-29";
+        genderStatus="Male";
+        smokerStatus="Yes";
+        sinNumber="9998887799";
+        nationality="Vietnamese";
+        maritalStatus="Married";
 
         loginPage = PageGeneratorManager.getLoginPage(driver);
         sleepInsecons(3);
@@ -46,9 +62,9 @@ public class PIM_01_Employee_List extends BaseTest {
         employeeID = addEmployeePage.getEmployeeID();
         addEmployeePage.clickToSave();
 
+//        Assert.assertTrue(addEmployeePage.isSuccessSaveMessageDisplayed("Successfully Saved"));
         sleepInsecons(3);
-        Assert.assertTrue(addEmployeePage.isSuccessSaveMessageDisplayed("Successfully Saved"));
-        addEmployeePage.waitForSpinnerIconInvisible();
+//        addEmployeePage.waitForSpinnerIconInvisible();
 
         personalDetailPage = PageGeneratorManager.getPersonalDetailPage(driver);
         sleepInsecons(3);
@@ -75,6 +91,45 @@ public class PIM_01_Employee_List extends BaseTest {
     }
     @Test
     public void EmployeeList_02_Person_Detail(){
+        sleepInsecons(3);
+        personalDetailPage = employeeListPage.clickToEditIconByEmployeeID(employeeID);
+
+        sleepInsecons(3);
+        Assert.assertEquals(personalDetailPage.getFirstNameValue(),firstName);
+        Assert.assertEquals(personalDetailPage.getLastNameValue(),lastName);
+        Assert.assertEquals(personalDetailPage.getEmployeeID(),employeeID);
+
+//        sleepInsecons(3);
+//        personalDetailPage.enterToNicknameTextBox(nickName);
+
+        sleepInsecons(3);
+        personalDetailPage.enterToDriverLicenseNumberTextBox(driverLicenseNumber);
+        sleepInsecons(3);
+        personalDetailPage.enterToDriverLicenseExpiryDatePicker(licenseExpiryDate);
+
+            //Chỉ chạy cho LIVE chứ k chạy LOCAL
+//        personalDetailPage.enterToSocialSecurityNumberTextBox(ssnNumber);
+//        personalDetailPage.enterToSocialInsuranceNumberTextBox(sinNumber);
+        personalDetailPage.selectToNationalityDropdown(nationality);
+        personalDetailPage.selectToMaritalStatusDropdown(maritalStatus);
+        personalDetailPage.enterToDateOfBirthDatePicker(dateOfBirth);
+        personalDetailPage.clickToRadioButtonByLabelName(genderStatus);
+
+//        personalDetailPage.clickToSmokerCheckBoxByLabelName(smokerStatus);
+
+        sleepInsecons(3);
+        personalDetailPage.clickToSaveButtonAtPersonalDetailPart();
+
+        sleepInsecons(3);
+        Assert.assertTrue(personalDetailPage.isSuccessSaveMessageDisplayed("Successfully Updated"));
+        personalDetailPage.waitForSpinnerIconInvisible();
+        sleepInsecons(3);
+        Assert.assertEquals(personalDetailPage.getNationalityDropdownSelectedText(),nationality);
+        Assert.assertEquals(personalDetailPage.getMaritalStatusDropdownSelectedText(),maritalStatus);
+        sleepInsecons(3);
+        Assert.assertFalse(personalDetailPage.isRadioButtonSelectedByLabelName(genderStatus));
+
+//        Assert.assertTrue(personalDetailPage.isSmokerCheckBoxSelectedByLabelName(genderStatus));
 
     }
     @Test

@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageUserUIs.BaseElementUI;
 
+import javax.lang.model.element.Element;
 import java.time.Duration;
 import java.util.List;
 import java.util.Set;
@@ -219,17 +220,20 @@ public class BasePage {
         return new Select(getWebElement(driver,loator)).isMultiple();
     }
 
-    public void SelectItemDropdown (WebDriver driver,String parrentLocator, String ChilLocator ,String ItemTextExpected){
-        getWebElement(driver,parrentLocator);
-        sleepInsecons(3);
-        List<WebElement> AllItems =new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.presenceOfAllElementsLocatedBy(getByLocator(ChilLocator)));;
-        for (WebElement item : AllItems){
-            if (item.getText().equals(ItemTextExpected)){
+    public void selectItemInDropdown(WebDriver driver, String parentLocator, String childItemLocator, String itemTextExpected) {
+        getWebElement(driver, parentLocator).click();
+        sleepInsecons(1);
+        List<WebElement> allItems = new WebDriverWait(driver, Duration.ofSeconds(longTimeout)).until(ExpectedConditions.presenceOfAllElementsLocatedBy(getByLocator(childItemLocator)));
+
+        for (WebElement item : allItems) {
+            String textOfItem = item.getText();
+
+            if (textOfItem.equals(itemTextExpected)) {
+                System.out.println("Text item selected = " + textOfItem);
                 item.click();
                 break;
             }
         }
-
     }
 
     public String getElementAttribute(WebDriver driver, String locator,String AttributeName,String... restParams){
@@ -239,6 +243,7 @@ public class BasePage {
     public String getElementCssValue(WebDriver driver, String locator,String CssPropertyName){
         return getWebElement(driver,locator).getCssValue(CssPropertyName);
     }
+
 
     public String convertRGBAToHexaColor(WebDriver driver, String locator){
 //        String backgroundColorRGBA=getElementCssValue(driver, locator,"background-color");
@@ -320,6 +325,9 @@ public class BasePage {
     public boolean isElementSelected(WebDriver driver, String locator){
         return getWebElement(driver,locator).isSelected();
     }
+    public boolean isElementSelected(WebDriver driver, String locator,String... restparams){
+        return getWebElement(driver,getDynamicLocator(locator,restparams)).isSelected();
+    }
     public boolean isElementEnable(WebDriver driver, String locator){
         return getWebElement(driver,locator).isEnabled();
     }
@@ -382,8 +390,24 @@ public class BasePage {
         ((JavascriptExecutor)driver).executeScript("arguments[0].setAttribute('style', arguments[1])", element, originalStyle);
     }
 
-    public void clickToElementByJS(WebDriver driver,String locator) {
+    public void clickToElementByJSwebElement(WebDriver driver,String locator) {
         ((JavascriptExecutor)driver).executeScript("arguments[0].click();", getWebElement(driver,locator));
+        sleepInsecons(3);
+    }
+    public void clickToElementByJSelement(WebDriver driver, String locator) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", getElement(driver, locator));
+        sleepInsecons(3);
+    }
+
+    private Element getElement(WebDriver driver, String locator) {
+        return (Element) driver.findElement(getByLocator(locator));
+    }
+    public boolean waitForListElementsInvisible(WebDriver driver, String locator) {
+        return new WebDriverWait(driver, Duration.ofSeconds(longTimeout)).until(ExpectedConditions.invisibilityOfAllElements(getListWebElement(driver, locator)));
+    }
+
+    public void clickToElementByJS(WebDriver driver,String locator,String... restParameters) {
+        ((JavascriptExecutor)driver).executeScript("arguments[0].click();", getWebElement(driver,getDynamicLocator(locator,restParameters)));
         sleepInsecons(3);
     }
 
