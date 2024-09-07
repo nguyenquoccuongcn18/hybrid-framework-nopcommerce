@@ -1,19 +1,26 @@
 package commons;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeSuite;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -150,7 +157,169 @@ public class BaseTest {
         driver.get(url);
         return driver;
     }
-    protected boolean verifyTrue(boolean condition) {
+
+    protected WebDriver getBrowserNameHeadLess(String browserName) {
+        BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
+
+        /*
+        if (browserName.equalsIgnoreCase("firefox")) {
+            driver = new FirefoxDriver();
+        } else if (browserName.equalsIgnoreCase("chrome")) {
+            driver = new ChromeDriver();
+        } else if (browserName.equalsIgnoreCase("edge")) {
+            driver = new EdgeDriver();
+        } else {
+            throw new RuntimeException("Browser name is not valid");
+        }
+        */
+
+        /* Enum
+        if (browser == BrowserList.FIREFOX) {
+            driver = new FirefoxDriver();
+        } else if (browser == BrowserList.CHROME) {
+            driver = new ChromeDriver();
+        } else if (browser == BrowserList.EDGE) {
+            driver = new EdgeDriver();
+        } else {
+            throw new RuntimeException("Browser name is not valid");
+        }
+        */
+
+    /*
+        // Selenium 3.x
+        switch (browser) {
+            case FIREFOX:
+                String projectPath = System.getProperty("user.dir");
+                System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+
+                driver = new FirefoxDriver();
+                break;
+            default:
+                throw new RuntimeException("Browser name is not valid");
+        }
+    */
+
+    /*
+        // WebDriverManager - Selenium 3.x
+        switch (browser) {
+            case FIREFOX:
+                // WebDriverManager 4.x/5.x (cung dung duoc): Download driver + setting bien moi truong
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+
+                // WebDriverManager 5.x: Download driver + setting bien moi truong + Khoi tao browser
+                driver = WebDriverManager.firefoxdriver().create();
+                break;
+            default:
+                throw new RuntimeException("Browser name is not valid");
+        }
+    */
+
+        // SeleniumManager - Selenium 4.x (tu 4.6.x tro len)
+        switch (browser) {
+            case FIREFOX:
+                driver = new FirefoxDriver();
+                break;
+            case CHROME:
+                driver = new ChromeDriver();
+                break;
+            case EDGE:
+                driver = new EdgeDriver();
+                break;
+            case FIREFOX_HEADLESS:
+                FirefoxOptions ffHeadlessOptions = new FirefoxOptions();
+                ffHeadlessOptions.addArguments("--headless");
+                ffHeadlessOptions.addArguments("window-size=1360x768");
+                driver = new FirefoxDriver(ffHeadlessOptions);
+                break;
+            case CHROME_HEADLESS:
+                ChromeOptions chHeadlessOptions = new ChromeOptions();
+                chHeadlessOptions.addArguments("--headless");
+                chHeadlessOptions.addArguments("window-size=1360x768");
+                driver = new ChromeDriver(chHeadlessOptions);
+                break;
+            case EDGE_HEADLESS:
+                EdgeOptions edgeHeadlessOptions = new EdgeOptions();
+                edgeHeadlessOptions.addArguments("--headless");
+                edgeHeadlessOptions.addArguments("window-size=1360x768");
+                driver = new EdgeDriver(edgeHeadlessOptions);
+                break;
+            default:
+                throw new RuntimeException("Browser name is not valid");
+        }
+
+        driver.manage().window().maximize();
+//        driver.manage().window().setPosition(new Point(0, 0));
+//        driver.manage().window().setSize(new Dimension(1920, 1080));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.get("http://localhost:90/orangehrm");
+
+        return driver;
+    }
+    protected WebDriver getBrowserDriverWithExtensions(String browserName, String url) {
+        BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
+        Path path = null;
+        File extensionFilePath = null;
+        // SeleniumManager - Selenium 4.x (tu 4.6.x tro len)
+        switch (browser) {
+            case FIREFOX_EXTENSION:
+                // options 1: selenium v3
+                /*FirefoxProfile profile = new FirefoxProfile();
+                File ffFile = new File(GlobalConstants.BROWSER_EXTENSIONS + "wappalyzer-6.10.70.xpi");
+                profile.addExtension(ffFile);
+                FirefoxOptions ffOptions = new FirefoxOptions();
+                ffOptions.setProfile(profile);
+                driver = new FirefoxDriver(ffOptions);*/
+
+                // options 2: selenium v4
+                driver = new FirefoxDriver();
+                Path xpiPath = Paths.get(GlobalConstants.BROWSER_EXTENSIONS + "wappalyzer.xpi");
+                FirefoxDriver ffDriver = (FirefoxDriver) driver;
+                ffDriver.installExtension(xpiPath);
+                driver = ffDriver;
+
+                break;
+            case CHROME_EXTENSION:
+                // options 1: selenium v3
+                /*File chromeFile = new File(GlobalConstants.BROWSER_EXTENSIONS + "wappalyzer.crx");
+                ChromeOptions chOptions = new ChromeOptions();
+                chOptions.addExtensions(chromeFile);
+                driver = new ChromeDriver(chOptions);*/
+
+                // options 2: selenium v4
+                ChromeOptions chOptions = new ChromeOptions();
+                path = Paths.get(GlobalConstants.BROWSER_EXTENSIONS +"Wappalyzer.crx");
+                extensionFilePath = new File(path.toUri());
+                chOptions.addExtensions(extensionFilePath);
+                driver = new ChromeDriver(chOptions);
+                break;
+            case EDGE_EXTENSION:
+                // options 1: selenium v3
+                /*File edgeFile = new File(GlobalConstants.BROWSER_EXTENSIONS + "wappalyzer.crx");
+                EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions.addExtensions(edgeFile);
+                driver = new EdgeDriver(edgeOptions);*/
+
+                // options 2: selenium v4
+                EdgeOptions edgeOptions = new EdgeOptions();
+                path = Paths.get(GlobalConstants.BROWSER_EXTENSIONS + "wappalyzer.crx");
+                extensionFilePath = new File(path.toUri());
+                edgeOptions.addExtensions(extensionFilePath);
+                driver = new EdgeDriver(edgeOptions);
+                break;
+            default:
+                throw new RuntimeException("Browser name is not valid");
+        }
+
+        driver.manage().window().maximize();
+//        driver.manage().window().setPosition(new Point(0, 0));
+//        driver.manage().window().setSize(new Dimension(1920, 1080));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.get(url);
+        return driver;
+    }
+
+    protected boolean verifyTrue (boolean condition) {
         boolean pass = true;
         try {
             Assert.assertTrue(condition);

@@ -3,6 +3,7 @@ package commons;
 import java.io.File;
 
 public class GlobalConstants {
+
     public static final String DEV_USER_URL = "https://demo.nopcommerce.com/";
     public static final String DEV_ADMIN_URL = "https://admin-demo.nopcommerce.com/";
     public static final long SHORT_TIMEOUT = 5;
@@ -20,6 +21,8 @@ public class GlobalConstants {
     public static final String JAVA_VERSION = System.getProperty("java.version");
     public static final String ADMIN_ORGANGE_HRM_USERNAME = "automation";
     public static final String ADMIN_ORGANGE_HRM_PASSWORD = "Matkhau@123";
-
-
+    public static final String PROJECT_PATH = System.getProperty("user.dir");
+    public static final String FIREFOX_DRIVER_PATH = PROJECT_PATH + File.separator + "browserDrivers" + File.separator + "geckodriver.exe";
+    public static final String CHROME_DRIVER_PATH = PROJECT_PATH + File.separator + "browserDrivers" + File.separator + "chromedriver.exe";
+    public static final String BROWSER_EXTENSIONS = PROJECT_PATH + File.separator + "browersExtension" + File.separator ;
 }
