@@ -7,11 +7,13 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.chromium.ChromiumDriverLogLevel;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeDriverService;
 import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.*;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeSuite;
@@ -21,6 +23,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -316,6 +321,206 @@ public class BaseTest {
 //        driver.manage().window().setSize(new Dimension(1920, 1080));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
         driver.get(url);
+        return driver;
+    }
+    protected WebDriver getBrowserDriverWithLogs(String browserName, String url) {
+        BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
+        // SeleniumManager - Selenium 4.x (tu 4.6.x tro len)
+        switch (browser) {
+            case FIREFOX:
+                // Log to file
+//                FirefoxDriverService ffService = new GeckoDriverService.Builder().withLogFile(new File(GlobalConstants.BROWSER_LOGS + "FirefoxDriver.log")).build();
+
+                // Log to Console
+                //FirefoxDriverService ffService = new GeckoDriverService.Builder().withLogOutput(System.out).build();
+
+                // Log to Level
+                System.setProperty(GeckoDriverService.GECKO_DRIVER_LOG_PROPERTY, GlobalConstants.BROWSER_LOGS + "FirefoxLevel.log");
+                FirefoxDriverService ffService = new GeckoDriverService.Builder().withLogLevel(FirefoxDriverLogLevel.DEBUG).build();
+
+                driver = new FirefoxDriver(ffService);
+                break;
+            case CHROME:
+                // Log to file
+                //ChromeDriverService chService = new ChromeDriverService.Builder().withLogFile(new File(GlobalConstants.BROWSER_LOGS + "ChromeDriver.log")).build();
+
+                // Log to Console
+                //ChromeDriverService chService = new ChromeDriverService.Builder().withLogOutput(System.out).build();
+
+                // Log to Level
+                System.setProperty(ChromeDriverService.CHROME_DRIVER_LOG_PROPERTY, GlobalConstants.BROWSER_LOGS + "ChromeLevel.log");
+                ChromeDriverService chService = new ChromeDriverService.Builder().withLogLevel(ChromiumDriverLogLevel.DEBUG).build();
+
+                driver = new ChromeDriver(chService);
+                break;
+            case EDGE:
+                // Log to file
+                //EdgeDriverService edgeService = new EdgeDriverService.Builder().withLogFile(new File(GlobalConstants.BROWSER_LOGS + "EdgeDriver.log")).build();
+
+                // Log to Console
+                //EdgeDriverService edgeService = new EdgeDriverService.Builder().withLogOutput(System.out).build();
+
+                // Log to Level
+                System.setProperty(EdgeDriverService.EDGE_DRIVER_LOG_PROPERTY, GlobalConstants.BROWSER_LOGS + "EdgeLevel.log");
+                EdgeDriverService edgeService = new EdgeDriverService.Builder().withLoglevel(ChromiumDriverLogLevel.DEBUG).build();
+
+                driver = new EdgeDriver(edgeService);
+                break;
+            default:
+                throw new RuntimeException("Browser name is not valid");
+        }
+
+        driver.manage().window().maximize();
+//        driver.manage().window().setPosition(new Point(0, 0));
+//        driver.manage().window().setSize(new Dimension(1920, 1080));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.get(url);
+
+        return driver;
+    }
+    protected WebDriver getBrowserDriverCapabilities(String browserName, String url) {
+        BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
+
+        /*
+        if (browserName.equalsIgnoreCase("firefox")) {
+            driver = new FirefoxDriver();
+        } else if (browserName.equalsIgnoreCase("chrome")) {
+            driver = new ChromeDriver();
+        } else if (browserName.equalsIgnoreCase("edge")) {
+            driver = new EdgeDriver();
+        } else {
+            throw new RuntimeException("Browser name is not valid");
+        }
+        */
+
+        /* Enum
+        if (browser == BrowserList.FIREFOX) {
+            driver = new FirefoxDriver();
+        } else if (browser == BrowserList.CHROME) {
+            driver = new ChromeDriver();
+        } else if (browser == BrowserList.EDGE) {
+            driver = new EdgeDriver();
+        } else {
+            throw new RuntimeException("Browser name is not valid");
+        }
+        */
+
+    /*
+        // Selenium 3.x
+        switch (browser) {
+            case FIREFOX:
+                String projectPath = System.getProperty("user.dir");
+                System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+
+                driver = new FirefoxDriver();
+                break;
+            default:
+                throw new RuntimeException("Browser name is not valid");
+        }
+    */
+
+    /*
+        // WebDriverManager - Selenium 3.x
+        switch (browser) {
+            case FIREFOX:
+                // WebDriverManager 4.x/5.x (cung dung duoc): Download driver + setting bien moi truong
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+
+                // WebDriverManager 5.x: Download driver + setting bien moi truong + Khoi tao browser
+                driver = WebDriverManager.firefoxdriver().create();
+                break;
+            default:
+                throw new RuntimeException("Browser name is not valid");
+        }
+    */
+
+        // SeleniumManager - Selenium 4.x (tu 4.6.x tro len)
+        switch (browser) {
+            case FIREFOX:
+                FirefoxOptions ffOptions = new FirefoxOptions();
+
+           //Config tải file không hiển thị dowload mà tự động lưu về máy luôn
+//                ffOptions.addPreference("browser.download.folderList", 2);
+//                ffOptions.addPreference("browser.download.dir", GlobalConstants.DOWNLOAD_PATH + "\\downloadFiles");
+//                ffOptions.addPreference("browser.download.useDownloadDir", true);
+//                ffOptions.addPreference("browser.helperApps.neverAsk.saveToDisk",
+//                        "multipart/x-zip,application/zip,application/x-zip-compressed,application/x-compressed,application/msword,application/csv,text/csv,image/png,image/jpeg,application/pdf,text/html,text/plain,application/excel,application/vnd.ms-excel,application/x-excel,application/x-msexcel,application/octet-stream");
+//                ffOptions.addPreference("pdfjs.disabled", true);
+
+
+                ffOptions.addPreference("intl.accept_languages", "vi-vn,vi");
+                ffOptions.addArguments("--private"); // Run on an danh mode
+
+                driver = new FirefoxDriver(ffOptions);
+                break;
+            case CHROME:
+                Map<String, Object> chPrefs = new HashMap<String, Object>();
+                chPrefs.put("profile.default_content_setting_values.notifications", 2); // Tat luu address
+                chPrefs.put("credentials_enable_service", false);
+                chPrefs.put("profile.password_manager_enabled", false); // Tat luu password
+                chPrefs.put("autofill.profile_enabled", false); // Tat autofill suggestion
+                chPrefs.put("autofill.credit_card_enable", false); // Tat save CARD info
+
+                // Download file KHONG hien download dialog khi bam nut down
+                chPrefs.put("profile.default_content_settings.popups", 0);
+                chPrefs.put("download.default_directory", GlobalConstants.DOWNLOAD_PATH);
+
+                ChromeOptions chOptions = new ChromeOptions();
+
+                chOptions.addArguments("--lang=vi");
+                chOptions.addArguments("--disable-notifications"); // tat thong bao
+                chOptions.addArguments("--disable-geolocation"); // tat thong bao dinh vi vi tri
+                //chOptions.addArguments("--incognito"); // Run on an danh mode
+
+                // Run with Profile
+//                chOptions.addArguments("user-data-dir= C:\\Users\\THIS PC\\AppData\\Local\\Google\\Chrome\\User Data");
+//                chOptions.addArguments("profile-directory=Profile 4");
+
+                // tat thong bao trinh duyet đang chạy là automation
+                chOptions.setExperimentalOption("useAutomationExtension", false);
+                chOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+
+                chOptions.setExperimentalOption("prefs", chPrefs); // Tat cac thong bao config o tren
+
+                driver = new ChromeDriver(chOptions);
+                break;
+            case EDGE:
+                Map<String, Object> edgePrefs = new HashMap<String, Object>();
+                edgePrefs.put("profile.default_content_setting_values.notifications", 2); // Tat luu address
+                edgePrefs.put("credentials_enable_service", false);
+                edgePrefs.put("profile.password_manager_enabled", false); // Tat luu password
+                edgePrefs.put("autofill.profile_enabled", false); // Tat autofill suggestion
+                edgePrefs.put("autofill.credit_card_enable", false); // Tắt save CARD info
+
+                // Download file KHONG hien download dialog khi bam nút down
+                edgePrefs.put("profile.default_content_settings.popups", 0);
+                edgePrefs.put("download.default_directory", GlobalConstants.DOWNLOAD_PATH);
+
+                EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions.addArguments("--lang=fr");
+                edgeOptions.addArguments("--disable-notifications"); // tat thong bao
+                edgeOptions.addArguments("--disable-geolocation"); // tat thong bao dinh vi vi tri
+                edgeOptions.addArguments("--inprivate"); // Run on an danh mode
+
+                // tat thong bao trinh duyet dang chay o auto mode
+                edgeOptions.setExperimentalOption("useAutomationExtension", false);
+                edgeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+
+                edgeOptions.setExperimentalOption("prefs", edgePrefs); // Tat cac thong bao config o tren
+
+                driver = new EdgeDriver(edgeOptions);
+                break;
+            default:
+                throw new RuntimeException("Browser name is not valid");
+        }
+
+        driver.manage().window().maximize();
+//        driver.manage().window().setPosition(new Point(0, 0));
+//        driver.manage().window().setSize(new Dimension(1920, 1080));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.get(url);
+
         return driver;
     }
 

@@ -25,4 +25,7 @@ public class GlobalConstants {
     public static final String FIREFOX_DRIVER_PATH = PROJECT_PATH + File.separator + "browserDrivers" + File.separator + "geckodriver.exe";
     public static final String CHROME_DRIVER_PATH = PROJECT_PATH + File.separator + "browserDrivers" + File.separator + "chromedriver.exe";
     public static final String BROWSER_EXTENSIONS = PROJECT_PATH + File.separator + "browersExtension" + File.separator ;
+    public static final String BROWSER_LOGS = PROJECT_PATH + File.separator + "browserLogs" + File.separator ;
+
+    public static final String DOWNLOAD_PATH = RELATIVE_PROJECT_PATH + File.separator + "downloadFiles" + File.separator;
 }

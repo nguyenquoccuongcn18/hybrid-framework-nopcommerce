@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="NopCommerce">
+    <parameter name="url" value="http://localhost:90/orangehrm"/>
+ <listeners>
+     <listener class-name="commons.MethodListener"></listener>
+     <listener class-name="reportConfig.AllureTestListener"></listener>
+
+ </listeners>
+
+    <test name="Run on CHROME Headless">
+        <parameter name="browser" value="CHROME"/>
+        <classes>
+            <class name="browersConfig.PIM_01_Employee_List_Capabilities"></class>
+        </classes>
+    </test>
+<!--    <test name="Run on chrome Headless">-->
+<!--        <parameter name="browser" value="chrome_headless"/>-->
+<!--        <classes>-->
+<!--            <class name="browersConfig.PIM_01_Employee_List_HeadLess"></class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+</suite>
