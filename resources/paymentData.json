@@ -1,0 +1,10 @@
+{
+  "visa": "John",
+  "data": "Mason",
+  "cvc": "John@gmail.com",
+  "Checkout": {
+    "amount": 100,
+    "currency": "USD"
+  }
+
+}

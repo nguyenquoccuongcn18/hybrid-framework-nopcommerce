@@ -11,7 +11,7 @@
     <test name="Run on chrome">
         <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="orangehrm.PIM.PIM_01_Employee_List"></class>
+            <class name="orangehrm.PIM.PIM_01_Employee_List_POJO_Data"></class>
         </classes>
     </test>
 </suite>

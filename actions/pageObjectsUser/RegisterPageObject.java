@@ -1,8 +1,8 @@
 package pageObjectsUser;
 
+import JSON_Data.nopcommer.DataJson;
+import pojoData.nopcommer.UserInfo;
 import commons.BaseElement;
-import commons.BasePage;
-import commons.PageGeneratorManager;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pageUserUIs.RegisterPageUI;
@@ -79,6 +79,20 @@ public class RegisterPageObject extends BaseElement {
     public String getRegisterSuccessMessageText() {
         waitForElementClickable(driver, RegisterPageUI.REGISTER_COMPLETED_MSG);
         return getElementText(driver,RegisterPageUI.REGISTER_COMPLETED_MSG);
+    }
+    public void setToRegisterForm(UserInfo userInfo) {
+        enterToFirstNameTextBox(userInfo.getFirstName());
+        enterToLastNameTextBox(userInfo.getLastName());
+        enterToEmailTextBox(userInfo.getEmailAddress());
+        enterToPsswordTextBox(userInfo.getPassword());
+        enterToconfirmPasswordTextBox(userInfo.getPassword());
+    }
+    public void enterToRegisterForm(DataJson dataJson) {
+        enterToFirstNameTextBox(dataJson.getFirstname());
+        enterToLastNameTextBox(dataJson.getLastname());
+        enterToEmailTextBox(dataJson.getEmail());
+        enterToPsswordTextBox(dataJson.getPassword());
+        enterToconfirmPasswordTextBox(dataJson.getPassword());
     }
 
 
