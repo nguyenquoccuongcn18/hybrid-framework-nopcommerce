@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="rgxgen-2.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libDataFaker/rgxgen-2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

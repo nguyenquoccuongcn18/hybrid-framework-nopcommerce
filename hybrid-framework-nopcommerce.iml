@@ -66,5 +66,6 @@
     <orderEntry type="library" name="rgxgen-2.0" level="project" />
     <orderEntry type="library" name="snakeyaml-2.3" level="project" />
     <orderEntry type="library" name="jackson-annotations-2.15.2" level="project" />
+    <orderEntry type="library" name="commons-collections4-4.4" level="project" />
   </component>
 </module>

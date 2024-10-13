@@ -29,5 +29,7 @@ public class GlobalConstants {
 
     public static final String DOWNLOAD_PATH = RELATIVE_PROJECT_PATH + File.separator + "downloadFiles" + File.separator;
     public static final String RESOURCES_PATH = RELATIVE_PROJECT_PATH + File.separator + "resources" + File.separator;
+    public static final String DATA_TEST_PATH_EXCEL = RELATIVE_PROJECT_PATH + File.separator + "dataTest" + File.separator;
+
 
 }

@@ -114,6 +114,10 @@ public class BaseTest {
         return driver;
     }
 
+    protected String getEmailRandoms(String email){
+        Random rand = new Random();
+        return "JohnSmith" + rand.nextInt(1000) + "@gmail.com";
+    }
 
     protected String getEmailRandom(){
         Random rand = new Random();
