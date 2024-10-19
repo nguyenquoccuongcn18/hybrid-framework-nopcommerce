@@ -16,5 +16,10 @@ public class DashboardObjects extends BaseActions {
         waitForSpinnerIconInvisible();
         return PageGeneratorManager.getEmployeeListPage(driver);
     }
+    public EmployeeListObjects isSearchOrangeHRM (String values) {
+        waitForElementVisible(driver, DashboardUIs.SEARCH_ORANGE_HRM);
+        sendKeysToElement(driver, DashboardUIs.SEARCH_ORANGE_HRM,values);
+        return PageGeneratorManager.getEmployeeListPage(driver);
+    }
 
 }

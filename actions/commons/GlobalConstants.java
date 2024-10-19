@@ -21,6 +21,8 @@ public class GlobalConstants {
     public static final String JAVA_VERSION = System.getProperty("java.version");
     public static final String ADMIN_ORGANGE_HRM_USERNAME = "automation";
     public static final String ADMIN_ORGANGE_HRM_PASSWORD = "Matkhau@123";
+    public static final String USER_NAME_SAUCEDEMO = "standard_user";
+    public static final String PASSWORD_SAUCEDEMO = "secret_sauce";
     public static final String PROJECT_PATH = System.getProperty("user.dir");
     public static final String FIREFOX_DRIVER_PATH = PROJECT_PATH + File.separator + "browserDrivers" + File.separator + "geckodriver.exe";
     public static final String CHROME_DRIVER_PATH = PROJECT_PATH + File.separator + "browserDrivers" + File.separator + "chromedriver.exe";
@@ -28,7 +30,7 @@ public class GlobalConstants {
     public static final String BROWSER_LOGS = PROJECT_PATH + File.separator + "browserLogs" + File.separator ;
 
     public static final String DOWNLOAD_PATH = RELATIVE_PROJECT_PATH + File.separator + "downloadFiles" + File.separator;
-    public static final String RESOURCES_PATH = RELATIVE_PROJECT_PATH + File.separator + "resources" + File.separator;
+    public static final String RESOURCES_PATH = RELATIVE_PROJECT_PATH + File.separator + "dataTest" + File.separator;
     public static final String DATA_TEST_PATH_EXCEL = RELATIVE_PROJECT_PATH + File.separator + "dataTest" + File.separator;
 
 

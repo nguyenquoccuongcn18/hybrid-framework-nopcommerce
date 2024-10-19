@@ -10,6 +10,10 @@ public class BaseActions extends BasePage {
     public BaseActions(WebDriver driver) {
         this.driver = driver;
     }
+
+    public BaseActions() {
+    }
+
     public void waitForSpinnerIconInvisible() {
         waitForListElementsInvisible(driver, BaseActionUIs.SPINNER_ICON);
     }
