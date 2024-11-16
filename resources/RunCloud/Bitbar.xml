@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="NopCommerce">
+    <parameter name="url" value="https://www.saucedemo.com/"/>
+ <listeners>
+     <listener class-name="commons.MethodListener"></listener>
+     <listener class-name="reportConfig.AllureTestListener"></listener>
+
+ </listeners>
+
+    <test name="Run on firefox">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="osName" value="windows"/>
+        <parameter name="osVer" value="10"/>
+
+        <classes>
+            <class name="cloud.Level_16_Live_Coding_V_Bitbar"></class>
+        </classes>
+    </test>
+</suite>

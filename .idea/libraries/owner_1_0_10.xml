@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="owner-1.0.10">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libSelenium/owner-1.0.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libSelenium/mockito-core-2.15.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libSelenium/junit-4.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libSelenium/hamcrest-core-1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libSelenium/hamcrest-all-1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libSelenium/commons-codec-1.11.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

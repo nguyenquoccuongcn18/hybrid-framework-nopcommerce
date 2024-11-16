@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/testcases" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/dataTest" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/enviromentXML" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -67,5 +68,6 @@
     <orderEntry type="library" name="snakeyaml-2.3" level="project" />
     <orderEntry type="library" name="jackson-annotations-2.15.2" level="project" />
     <orderEntry type="library" name="commons-collections4-4.4" level="project" />
+    <orderEntry type="library" name="owner-1.0.10" level="project" />
   </component>
 </module>

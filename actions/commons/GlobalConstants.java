@@ -3,7 +3,7 @@ package commons;
 import java.io.File;
 
 public class GlobalConstants {
-
+    //Private static variables
     public static final String DEV_USER_URL = "https://demo.nopcommerce.com/";
     public static final String DEV_ADMIN_URL = "https://admin-demo.nopcommerce.com/";
     public static final long SHORT_TIMEOUT = 5;
@@ -32,6 +32,21 @@ public class GlobalConstants {
     public static final String DOWNLOAD_PATH = RELATIVE_PROJECT_PATH + File.separator + "downloadFiles" + File.separator;
     public static final String RESOURCES_PATH = RELATIVE_PROJECT_PATH + File.separator + "dataTest" + File.separator;
     public static final String DATA_TEST_PATH_EXCEL = RELATIVE_PROJECT_PATH + File.separator + "dataTest" + File.separator;
+    public static final String ENVIRONMENT_CONFIG_PATH = RELATIVE_PROJECT_PATH + File.separator + "enviromentConfig" + File.separator;
 
+    /**BrowserStack Config*/
+    public static final String BROWSERSTACK_USERNAME = "quccng_wCZGKS";
+    public static final String BROWSERSTACK_ACCESS_KEY = "LCq3izuaVySzPRp1c4qy";
+    public static final String BROWSERSTACK_URL = "https://" + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESS_KEY + "@hub-cloud.browserstack.com/wd/hub";
 
+    /**SauceLabs Config*/
+    public static final String SAUCELABS_USERNAME = "oauth-cuong01676234780-553d8";
+    public static final String SAUCELABS_ACCESS_KEY = "b31bc60d-8e69-4357-bd53-d20400563625";
+    public static final String SAUCELABS_URL = "https://" + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESS_KEY + "@ondemand.eu-central-1.saucelabs.com:443/wd/hub";
+
+    /**BitBar Config*/
+    public static final String BITBAR_ACCESS_KEY = "lwv0eKiY1TMOOHNW1LeWuhwNG8mhfCAS";
+    public static final String BITBAR_URL = "https://eu-desktop-hub.bitbar.com/wd/hub";
 }
+
+

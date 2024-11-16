@@ -3,9 +3,7 @@ package commons;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,12 +12,17 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeDriverService;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.*;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeSuite;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -30,9 +33,14 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+import static commons.ServerList.*;
+
 public class BaseTest {
     private Logger log;
     private String browserName;
+    private WebDriver driverBaseTest;
+
+
     private String url;
 //    protected final Logger log;
 //    protected final Log log;
@@ -166,6 +174,109 @@ public class BaseTest {
         driver.get(url);
         return driver;
     }
+    protected WebDriver getBrowerDriverV2(String browserName, String url) {
+
+        BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
+
+        switch (browser) {
+            case FIREFOX:
+                driver = new FirefoxDriver();
+                break;
+            case CHROME:
+                driver = new ChromeDriver();
+                break;
+            case EDGE:
+                driver = new EdgeDriver();
+                break;
+            default:
+                throw new RuntimeException("Browser is invalid.");
+        }
+
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        return driver;
+
+    }
+
+    protected WebDriver getBrowserEnvironment(String browserName, String serverName) {
+
+        BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
+
+        switch (browser) {
+            case FIREFOX:
+                driver = new FirefoxDriver();
+                break;
+            case CHROME:
+                driver = new ChromeDriver();
+                break;
+            case EDGE:
+                driver = new EdgeDriver();
+                break;
+            default:
+                throw new RuntimeException("Browser is invalid.");
+        }
+
+        driver.manage().window().setPosition(new Point(0, 0));
+        driver.manage().window().setSize(new Dimension(1920, 1080));
+
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        System.out.println("Server Name: " + serverName);
+        System.out.println("Server Url: " + getUrlByServerName(serverName));
+        driver.get(getUrlByServerName(serverName));
+        return driver;
+
+    }
+    protected WebDriver getBrowserEnvironmentV2(String browserName, String url) {
+
+        BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
+
+        switch (browser) {
+            case FIREFOX:
+                driver = new FirefoxDriver();
+                break;
+            case CHROME:
+                driver = new ChromeDriver();
+                break;
+            case EDGE:
+                driver = new EdgeDriver();
+                break;
+            default:
+                throw new RuntimeException("Browser is invalid.");
+        }
+
+        driver.manage().window().setPosition(new Point(0, 0));
+        driver.manage().window().setSize(new Dimension(1920, 1080));
+
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+
+        driver.get(url);
+        return driver;
+
+    }
+    private String getUrlByServerName(String serverName) {
+        ServerList server = ServerList.valueOf(serverName.toUpperCase());
+        switch (server) {
+            case DEV:
+                serverName = "https://www.saucedemo.com/";
+                break;
+            case TEST:
+                serverName = "https://www.saucedemo.com/";
+                break;
+            case STAGING:
+                serverName = "https://www.saucedemo.com/";
+                break;
+            case LIVE:
+                serverName = "https://www.saucedemo.com/";
+                break;
+
+            default:
+                new IllegalArgumentException("Unexpected value:" + serverName);
+        }
+        return serverName;
+    }
+
 
     protected WebDriver getBrowserNameHeadLess(String browserName) {
         BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
@@ -477,9 +588,9 @@ public class BaseTest {
                 chOptions.addArguments("--disable-geolocation"); // tat thong bao dinh vi vi tri
                 //chOptions.addArguments("--incognito"); // Run on an danh mode
 
-                // Run with Profile
-//                chOptions.addArguments("user-data-dir= C:\\Users\\THIS PC\\AppData\\Local\\Google\\Chrome\\User Data");
-//                chOptions.addArguments("profile-directory=Profile 4");
+//                 Run with Profile
+//                chOptions.addArguments("user-data-dir=C:\\Users\\THIS PC\\AppData\\Local\\Google\\Chrome\\User Data");
+//                chOptions.addArguments("profile-directory=Profile 6");
 
                 // tat thong bao trinh duyet đang chạy là automation
                 chOptions.setExperimentalOption("useAutomationExtension", false);
@@ -627,4 +738,165 @@ public class BaseTest {
             }
         }
     }
+
+    /**
+     * Run with CLOUD
+     */
+
+    /*================BrowserStack================*/
+
+    protected WebDriver getBrowserDriverBrowserStack(String browserName, String url, String osName, String osVer) {
+        MutableCapabilities capabilities = new MutableCapabilities();
+        HashMap<String, Object> bstackOptions = new HashMap<String, Object>();
+        capabilities.setCapability("browserName", browserName);
+        bstackOptions.put("os", osName);
+        bstackOptions.put("osVersion", osVer);
+        bstackOptions.put("browserVersion", "latest");
+        bstackOptions.put("sessionName", "Run on " + osName + " " + osVer + " with " + browserName);
+        bstackOptions.put("projectName", "CuongTestCloud");
+        bstackOptions.put("debug", "true");
+        capabilities.setCapability("bstack:options", bstackOptions);
+        try {
+            driver = new RemoteWebDriver(new URL(GlobalConstants.BROWSERSTACK_URL), capabilities);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        driver.manage().window().maximize();
+        driver.get(url);
+        return driver;
+    }
+
+    /*================SauceLabs================*/
+    protected WebDriver getBrowserDriverSauceLabs(String browserName, String browserVer, String url, String osName) {
+        MutableCapabilities capabilities = null;
+
+        switch (browserName) {
+            case "firefox":
+                FirefoxOptions fOptions = new FirefoxOptions();
+                fOptions.setPlatformName(osName);
+                fOptions.setBrowserVersion(browserVer);
+                fOptions.setImplicitWaitTimeout(Duration.ofSeconds(5));
+                capabilities = fOptions;
+                break;
+            case "chrome":
+                ChromeOptions cOptions = new ChromeOptions();
+                cOptions.setPlatformName(osName);
+                cOptions.setBrowserVersion(browserVer);
+                cOptions.setImplicitWaitTimeout(Duration.ofSeconds(5));
+                capabilities = cOptions;
+                break;
+            case "edge":
+                EdgeOptions eOptions = new EdgeOptions();
+                eOptions.setPlatformName(osName);
+                eOptions.setBrowserVersion(browserVer);
+                eOptions.setImplicitWaitTimeout(Duration.ofSeconds(5));
+                capabilities = eOptions;
+                break;
+            case "safari":
+                SafariOptions sOptions = new SafariOptions();
+                sOptions.setPlatformName(osName);
+                sOptions.setBrowserVersion(browserVer);
+                sOptions.setImplicitWaitTimeout(Duration.ofSeconds(5));
+                capabilities = sOptions;
+                break;
+            default:
+                throw new RuntimeException("Browser is not valid!");
+        }
+
+        Map<String, Object> sauceOptions = new HashMap<>();
+        sauceOptions.put("username", GlobalConstants.SAUCELABS_USERNAME);
+        sauceOptions.put("accessKey", GlobalConstants.SAUCELABS_ACCESS_KEY);
+        sauceOptions.put("build", "auto-course-build");
+        sauceOptions.put("name", "Run on " + osName + " with " + browserName + " " + browserVer);
+        capabilities.setCapability("sauce:options", sauceOptions);
+
+        try {
+            driver = new RemoteWebDriver(new URL(GlobalConstants.SAUCELABS_URL), capabilities);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        driver.manage().window().maximize();
+        driver.get(url);
+        return driver;
+    }
+
+    /*================BitBar SmartBear================*/
+    protected WebDriver getBrowserDriverBitBar(String browserName, String url, String osName, String osVer) {
+        MutableCapabilities capabilities = new MutableCapabilities();
+        capabilities.setCapability("platformName", osName);
+        capabilities.setCapability("browserName", browserName);
+        capabilities.setCapability("browserVersion", "latest");
+
+        HashMap<String, String> bitbarOptions = new HashMap<String, String>();
+        bitbarOptions.put("project", "Auto Cuongne");
+        bitbarOptions.put("testrun", "Run on " + osName + " " + osVer + " with " + browserName);
+        bitbarOptions.put("apiKey", GlobalConstants.BITBAR_ACCESS_KEY);
+        bitbarOptions.put("osVersion", osVer);
+        bitbarOptions.put("resolution", "1920x1080");
+        bitbarOptions.put("seleniumVersion", "4");
+        capabilities.setCapability("bitbar:options", bitbarOptions);
+
+        try {
+            driver = new RemoteWebDriver(new URL(GlobalConstants.BITBAR_URL), capabilities);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        driver.manage().window().maximize();
+        driver.get(url);
+        return driver;
+    }
+
+    ///
+    protected WebDriver getBrowserDriverBrowserStack1(String browserName, String url, String osName, String osVer) {
+        WebDriver driver = null;
+        MutableCapabilities capabilities = new MutableCapabilities();
+        HashMap<String, Object> bstackOptions = new HashMap<>();
+
+        try {
+            // Cấu hình các tùy chọn BrowserStack
+            capabilities.setCapability("browserName", browserName);
+            bstackOptions.put("os", osName);
+            bstackOptions.put("osVersion", osVer);
+            bstackOptions.put("browserVersion", "latest");
+            bstackOptions.put("sessionName", "Run on " + osName + " " + osVer + " with " + browserName);
+            bstackOptions.put("projectName", "CuongTestCloudne");
+            bstackOptions.put("debug", "true");
+
+            // Thiết lập độ phân giải màn hình
+            String resolution = "1920x1080";  // Độ phân giải mặc định
+            if (osName.contains("Windows")) {
+                capabilities.setCapability("screenResolution", resolution);
+            } else {
+                capabilities.setCapability("resolution", resolution);
+            }
+
+            // Gán các tùy chọn BrowserStack vào capabilities
+            capabilities.setCapability("bstack:options", bstackOptions);
+
+            // Tạo đối tượng RemoteWebDriver
+            driver = new RemoteWebDriver(new URL(System.getenv(GlobalConstants.BROWSERSTACK_URL)), capabilities);
+
+            // Cấu hình WebDriver
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+            driver.manage().window().maximize();
+            driver.get(url);
+
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Invalid BrowserStack URL: " + System.getenv(GlobalConstants.BROWSERSTACK_URL), e);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize WebDriver on BrowserStack", e);
+        }
+
+        return driver;
+    }
+
+
+
+
 }

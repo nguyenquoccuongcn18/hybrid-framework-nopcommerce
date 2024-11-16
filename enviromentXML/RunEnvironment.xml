@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="NopCommerce">
+
+ <listeners>
+     <listener class-name="commons.MethodListener"></listener>
+     <listener class-name="reportConfig.AllureTestListener"></listener>
+ </listeners>
+
+    <parameter name="url" value="https://www.saucedemo.com/"/>
+    <parameter name="api" value="https://www.saucedemo.com/"/>
+    <parameter name="username" value="https://www.saucedemo.com/"/>
+
+    <test name="Run on chrome">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="com.nopcommerce.account.Level_30_Enviroment_02_XML_File"></class>
+        </classes>
+    </test>
+</suite>
