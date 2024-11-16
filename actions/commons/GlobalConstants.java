@@ -47,6 +47,14 @@ public class GlobalConstants {
     /**BitBar Config*/
     public static final String BITBAR_ACCESS_KEY = "lwv0eKiY1TMOOHNW1LeWuhwNG8mhfCAS";
     public static final String BITBAR_URL = "https://eu-desktop-hub.bitbar.com/wd/hub";
+
+    public static final String LAMBDA_USERNAME = "cuong01676234780";
+    public static final String LAMBDA_ACCESS_KEY = "fmq74vlVPidGeORDPxhqWbVO1dd1Uvr3j9n9TWJ8jTZnijaMm0";
+    public static final String LAMBDA_URL = "https://hub.lambdatest.com/wd/hub";
+
+
+
+
 }
 
 

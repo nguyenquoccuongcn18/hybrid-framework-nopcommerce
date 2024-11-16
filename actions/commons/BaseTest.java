@@ -25,11 +25,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -853,49 +851,67 @@ public class BaseTest {
     }
 
     ///
-    protected WebDriver getBrowserDriverBrowserStack1(String browserName, String url, String osName, String osVer) {
-        WebDriver driver = null;
-        MutableCapabilities capabilities = new MutableCapabilities();
-        HashMap<String, Object> bstackOptions = new HashMap<>();
+    protected WebDriver getBrowserDriverLambda(String browserName, String url, String browserVer, String osName) {
+        MutableCapabilities capability = null;
 
-        try {
-            // Cấu hình các tùy chọn BrowserStack
-            capabilities.setCapability("browserName", browserName);
-            bstackOptions.put("os", osName);
-            bstackOptions.put("osVersion", osVer);
-            bstackOptions.put("browserVersion", "latest");
-            bstackOptions.put("sessionName", "Run on " + osName + " " + osVer + " with " + browserName);
-            bstackOptions.put("projectName", "CuongTestCloudne");
-            bstackOptions.put("debug", "true");
-
-            // Thiết lập độ phân giải màn hình
-            String resolution = "1920x1080";  // Độ phân giải mặc định
-            if (osName.contains("Windows")) {
-                capabilities.setCapability("screenResolution", resolution);
-            } else {
-                capabilities.setCapability("resolution", resolution);
-            }
-
-            // Gán các tùy chọn BrowserStack vào capabilities
-            capabilities.setCapability("bstack:options", bstackOptions);
-
-            // Tạo đối tượng RemoteWebDriver
-            driver = new RemoteWebDriver(new URL(System.getenv(GlobalConstants.BROWSERSTACK_URL)), capabilities);
-
-            // Cấu hình WebDriver
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-            driver.manage().window().maximize();
-            driver.get(url);
-
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Invalid BrowserStack URL: " + System.getenv(GlobalConstants.BROWSERSTACK_URL), e);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to initialize WebDriver on BrowserStack", e);
+        switch (browserName) {
+            case "firefox":
+                FirefoxOptions fOptions = new FirefoxOptions();
+                fOptions.setPlatformName(osName);
+                fOptions.setBrowserVersion(browserVer);
+                capability = fOptions;
+                break;
+            case "chrome":
+                ChromeOptions cOptions = new ChromeOptions();
+                cOptions.setPlatformName(osName);
+                cOptions.setBrowserVersion(browserVer);
+                capability = cOptions;
+                break;
+            case "edge":
+                EdgeOptions eOptions = new EdgeOptions();
+                eOptions.setPlatformName(osName);
+                eOptions.setBrowserVersion(browserVer);
+                capability = eOptions;
+                break;
+            case "safari":
+                SafariOptions sOptions = new SafariOptions();
+                sOptions.setPlatformName(osName);
+                sOptions.setBrowserVersion(browserVer);
+                capability = sOptions;
+                break;
+            default:
+                throw new RuntimeException("Browser is not valid!");
         }
 
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
+
+        HashMap<String, Object> lambdaOptions = new HashMap<String, Object>();
+        lambdaOptions.put("username", GlobalConstants.LAMBDA_USERNAME);
+        lambdaOptions.put("accessKey", GlobalConstants.LAMBDA_ACCESS_KEY);
+        lambdaOptions.put("visual", true);
+        lambdaOptions.put("video", true);
+        lambdaOptions.put("build", "nopcommerce-build");
+        lambdaOptions.put("project", "NopCommerce - UI Automation Testing");
+        lambdaOptions.put("name", "Run on " + osName + " | " + browserName + " | " + browserVer + " | " + formater.format(calendar.getTime()));
+        lambdaOptions.put("w3c", true);
+        lambdaOptions.put("selenium_version", "4.23.0");
+        lambdaOptions.put("resolution", "1920x1080");
+        lambdaOptions.put("plugin", "java-testNG");
+
+        capability.setCapability("LT:Options", lambdaOptions);
+
+        try {
+            driver = new RemoteWebDriver(new URL(GlobalConstants.LAMBDA_URL), capability);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.manage().window().maximize();
+        driver.get(url);
         return driver;
     }
-
 
 
 
