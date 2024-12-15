@@ -10,7 +10,7 @@ import commons.GlobalConstants;
 
 public class PropertiesConfig {
     private Properties properties;
-    private final String propertyFilePath = GlobalConstants.ENVIRONMENT_CONFIG_PATH + "%s.properties";
+    private final String propertyFilePath = GlobalConstants.getGlobalConstants().getEnvironmentConfigPath() + "%s.properties";
 
     public static PropertiesConfig getProperties(String serverName) {
         return new PropertiesConfig(serverName);

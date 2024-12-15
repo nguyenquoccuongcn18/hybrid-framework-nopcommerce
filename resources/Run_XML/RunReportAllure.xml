@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="NopCommerce">
+    <parameter name="url" value="https://demo.nopcommerce.com/"/>
+ <listeners>
+     <listener class-name="commons.MethodListener"></listener>
+     <listener class-name="reportConfig.AllureTestListener"></listener>
+
+<!--     allure serve .\allure-results\  Câu lệnh chạy Report Allure trên terminal vào folder chứa source chạy CMD-->
+
+<!--     Run Allure trên interleji-->
+<!--     -javaagent:$ModuleFileDir$"\libAllure\aspectjweaver-1.9.20.jar"-->
+
+ </listeners>
+
+    <test name="Run on chrome">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="account.Level_19_Allure"></class>
+        </classes>
+    </test>
+</suite>

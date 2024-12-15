@@ -32,7 +32,7 @@ public class Product extends BaseTest {
     @Parameters("browser")
     @BeforeClass
     public void beforeClass(String browserName) {
-        driver= getBrowerDriver(browserName);
+        driver= getBrowerDriverLocal(browserName);
         homePage = PageGeneratorManager.getHomePage(driver);
 
 

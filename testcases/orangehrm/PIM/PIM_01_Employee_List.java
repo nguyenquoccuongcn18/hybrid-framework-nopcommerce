@@ -25,7 +25,7 @@ public class PIM_01_Employee_List extends BaseTest {
     public void beforeClass(String browserName,String url) {
 
         //Data EmployeeList_01_Add_New
-        driver= getBrowerDriver(browserName,url);
+        driver= getBrowerDriverLocalV2(browserName,url);
         firstName="John";
         lastName="Terry";
 
@@ -43,9 +43,9 @@ public class PIM_01_Employee_List extends BaseTest {
 
         loginPage = PageGeneratorManager.getLoginPage(driver);
         sleepInsecons(3);
-        loginPage.inputToUsernameField(GlobalConstants.ADMIN_ORGANGE_HRM_USERNAME);
+        loginPage.inputToUsernameField(GlobalConstants.getGlobalConstants().getAdminOrgangeHrmUsernameLocal());
         sleepInsecons(3);
-        loginPage.inputToPasswordField(GlobalConstants.ADMIN_ORGANGE_HRM_PASSWORD);
+        loginPage.inputToPasswordField(GlobalConstants.getGlobalConstants().getAdminOrgangeHrmPasswordLocal());
         sleepInsecons(3);
         dashboardPage = loginPage.clickToLoginButton();
         sleepInsecons(5);

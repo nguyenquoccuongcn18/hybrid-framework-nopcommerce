@@ -1,5 +1,6 @@
 package pageObjects.SauceLab;
 
+import SaucedemoUI.SaucedemoUI;
 import orangehrmPageObjects.BaseActions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -162,4 +163,10 @@ public class ProductPageObjects extends BaseActions {
         }
         return floatList;
     }
+    public dataUiPageObject clickToItem() {
+        waitForElementClickable(driver, SaucedemoUI.ITEM_NAME);
+        clickToElement(driver,SaucedemoUI.ITEM_NAME);
+        return PageGeneratorManagerSauceLab.getClickItem(driver);
+    }
+
 }

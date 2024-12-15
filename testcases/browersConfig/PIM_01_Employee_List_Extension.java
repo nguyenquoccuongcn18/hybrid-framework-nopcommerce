@@ -43,9 +43,9 @@ public class PIM_01_Employee_List_Extension extends BaseTest {
 
         loginPage = PageGeneratorManager.getLoginPage(driver);
         sleepInsecons(3);
-        loginPage.inputToUsernameField(GlobalConstants.ADMIN_ORGANGE_HRM_USERNAME);
+        loginPage.inputToUsernameField(GlobalConstants.getGlobalConstants().getAdminOrgangeHrmUsernameLocal());
         sleepInsecons(3);
-        loginPage.inputToPasswordField(GlobalConstants.ADMIN_ORGANGE_HRM_PASSWORD);
+        loginPage.inputToPasswordField(GlobalConstants.getGlobalConstants().getAdminOrgangeHrmPasswordLocal());
         sleepInsecons(3);
         dashboardPage = loginPage.clickToLoginButton();
         sleepInsecons(5);

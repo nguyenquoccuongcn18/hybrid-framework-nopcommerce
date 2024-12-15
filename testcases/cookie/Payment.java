@@ -15,7 +15,6 @@ import pageObjectsUser.LoginPageObjectUser;
 import pageObjectsUser.RegisterPageObject;
 
 import static share.Common_Register.email;
-import static share.Common_Register.password;
 
 
 public class Payment extends BaseTest {
@@ -32,7 +31,7 @@ public class Payment extends BaseTest {
     @Parameters("browser")
     @BeforeClass
     public void beforeClass(String browserName) {
-        driver= getBrowerDriver(browserName);
+        driver= getBrowerDriverLocal(browserName);
         homePage = PageGeneratorManager.getHomePage(driver);
 
         homePage.setCookie(driver, Common_Register.cookie);

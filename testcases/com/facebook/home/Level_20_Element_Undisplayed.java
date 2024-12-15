@@ -23,7 +23,7 @@ public class Level_20_Element_Undisplayed extends BaseTest {
     @Parameters({"browser","url"})
     @BeforeClass
     public void beforeClass(String browserName,String urlValue) {
-        driver= getBrowerDriver(browserName,urlValue);
+        driver= getBrowerDriverLocalV2(browserName,urlValue);
         homePage = PageGeneratorManagerFacebook.getHomePage(driver);
     }
 

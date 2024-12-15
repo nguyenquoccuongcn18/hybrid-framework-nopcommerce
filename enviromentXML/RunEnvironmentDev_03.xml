@@ -12,7 +12,7 @@
     <test name="Run on chrome">
         <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="com.nopcommerce.account.Level_30_Enviroment_03_Java_Properties"></class>
+            <class name="account.Level_30_Enviroment_03_Java_Properties_V2"></class>
         </classes>
     </test>
 </suite>

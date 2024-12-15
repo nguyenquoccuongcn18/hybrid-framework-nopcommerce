@@ -1,5 +1,6 @@
 package commons;
 
+import factoryEnvironment.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 
@@ -12,6 +13,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeDriverService;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.*;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariOptions;
@@ -31,13 +33,18 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import static commons.ServerList.*;
-
 public class BaseTest {
     private Logger log;
+    private Platform platform;
+
     private String browserName;
     private WebDriver driverBaseTest;
-
+    private enum Environment {
+            DEV,
+            TESTING,
+            STAGING,
+            PRODUCTION
+    };
 
     private String url;
 //    protected final Logger log;
@@ -50,6 +57,47 @@ public class BaseTest {
 
     protected static WebDriver driver;
 
+    protected WebDriver getBrowserDriver(String envName, String serverName, String browserName, String ipAddress, String portNumber, String osName, String osVer) {
+        switch (envName) {
+            case "local":
+            driver = new LocalFactory(browserName).createDriver();
+                 break;
+             case "grid":
+             driver = new GridFactory(browserName,ipAddress,portNumber).createDriver();
+                 break;
+            case "browserStack":
+             driver = new BrowserStackFactory(browserName,osName,osVer).createDriver();
+                 break;
+            case "saucelab":
+                driver = new SaucelabFactory(browserName,osName).createDriver();
+                break;
+            case "bitBar":
+                driver = new BitBarFactory(browserName,osName,osVer).createDriver();
+                break;
+            default:
+                driver = new LocalFactory(browserName).createDriver();
+             break;
+        }
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(GlobalConstants.getGlobalConstants().getLongTimeout(),TimeUnit.MILLISECONDS);
+        driver.get(getEnvironmentValue(serverName));
+        return driver;
+    }
+    protected String getEnvironmentValue(String serverName) {
+        String envUrl = null;
+        Environment environment = Environment.valueOf(serverName.toUpperCase());
+
+        if (environment == Environment.DEV) {
+            envUrl = "https://www.saucedemo.com/";
+        } else if (environment == Environment.TESTING) {
+            envUrl = "https://www.saucedemo.com/";
+        } else if (environment == Environment.STAGING) {
+            envUrl = "https://www.saucedemo.com/";
+        } else if (environment == Environment.PRODUCTION) {
+            envUrl = "https://www.saucedemo.com/";
+        }
+        return envUrl;
+    }
     @BeforeSuite
     public void deleteFileInReport() {
         // Remove all file in ReportNG screenshot (image)
@@ -58,9 +106,74 @@ public class BaseTest {
         // Remove all file in Allure attachment (json file)
         deleteAllFileInFolder("allure-results");
     }
+    protected boolean verifyTrue (boolean condition) {
+        boolean pass = true;
+        try {
+            Assert.assertTrue(condition);
+//            log.info("--------------PASSED--------------");
+        } catch (Throwable e) {
+//            log.info("--------------FAILED--------------");
+            pass = false;
+
+            VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
+            Reporter.getCurrentTestResult().setThrowable(e);
+        }
+        return pass;
+    }
+
+    protected boolean verifyFalse(boolean condition) {
+        boolean pass = true;
+        try {
+
+            Assert.assertFalse(condition);
+//            log.info("--------------PASSED--------------");
+        } catch (Throwable e) {
+//            log.info("--------------FAILED--------------");
+            pass = false;
+            VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
+            Reporter.getCurrentTestResult().setThrowable(e);
+        }
+        return pass;
+    }
+
+    protected boolean verifyEquals(Object actual, Object expected) {
+        boolean pass = true;
+        try {
+            Assert.assertEquals(actual, expected);
+//            log.info("--------------PASSED--------------");
+        } catch (Throwable e) {
+//            log.info("--------------FAILED--------------");
+            pass = false;
+            VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
+            Reporter.getCurrentTestResult().setThrowable(e);
+        }
+        return pass;
+    }
+    protected String getEmailRandoms(String email){
+        Random rand = new Random();
+        return "JohnSmith" + rand.nextInt(1000) + "@gmail.com";
+    }
+
+    protected String getEmailRandom(){
+        Random rand = new Random();
+        return "JohnSmith" + rand.nextInt(1000) + "@gmail.com";
+    }
+    protected void sleepInsecons(long timeInsecons) {
+        try {
+            Thread.sleep(timeInsecons * 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    protected void closeBrowser(){
+        if (driver != null) {
+            driver.manage().deleteAllCookies();
+            driver.quit();
+        }
+    }
     public void deleteAllFileInFolder(String folderName){
         try {
-            String pathFolderDownload = GlobalConstants.RELATIVE_PROJECT_PATH + File.separator + folderName;
+            String pathFolderDownload = GlobalConstants.getGlobalConstants().getRelativeProjectPath() + File.separator + folderName;
             File file = new File(pathFolderDownload);
             File[] listOfFiles = file.listFiles();
             if (listOfFiles.length != 0) {
@@ -84,58 +197,9 @@ public class BaseTest {
 //    }
 
 
-    protected WebDriver getBrowerDriver(String browserName){
-        this.browserName = browserName;
-        BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
-
-        if (browser == BrowserList.CHROME){
-//            //tự tải về + settings
-//            FirefoxDriver.SystemProperty (WebDriver driver , " ");
-
-            //WebDriverManager: tải về driver + settings biến môi trường và khởi tạo browser lên
-            driver = WebDriverManager.chromedriver().create();
-
-//            //Selenium manager
-//            driver = new FirefoxDriver();
-        }
-        else if(browser == BrowserList.FIREFOX){
-            driver = WebDriverManager.firefoxdriver().create();
-        }   else if(browser == BrowserList.EDGE){
-            driver = WebDriverManager.edgedriver().create();
-        }else {
-            throw new RuntimeException("Lỗi không mở được trình duyệt");
-        }
-//        //vị trí browser
-//        driver.manage().window().setPosition(new Point(0,0));
-//        //kích thước màn hình
-//        driver.manage().window().setSize(new Point(1920, 1080));
-//        //mở trang web
-//        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-//        driver.manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);
-
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.MILLISECONDS);
-//        driver.get("https://demo.nopcommerce.com/");
-//        driver.get(url);
-        return driver;
-    }
-
-    protected String getEmailRandoms(String email){
-        Random rand = new Random();
-        return "JohnSmith" + rand.nextInt(1000) + "@gmail.com";
-    }
-
-    protected String getEmailRandom(){
-        Random rand = new Random();
-        return "JohnSmith" + rand.nextInt(1000) + "@gmail.com";
-    }
-    protected void sleepInsecons(long timeInsecons) {
-        try {
-            Thread.sleep(timeInsecons * 1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    /**
+     * Run with Local + Environment
+     */
     protected WebDriver getBrowerDriverAdminEndUser(String browserName, String url) {
         BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
 
@@ -150,11 +214,11 @@ public class BaseTest {
             throw new RuntimeException("Lỗi không mở được trình duyệt");
         }
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.MILLISECONDS);
+        driver.manage().timeouts().implicitlyWait(GlobalConstants.getGlobalConstants().getLongTimeout(), TimeUnit.MILLISECONDS);
         driver.get(url);
         return driver;
     }
-    protected WebDriver getBrowerDriver(String browserName, String url) {
+    protected WebDriver getBrowerDriverLocalV2(String browserName, String url) {
         BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
 
         if (browser == BrowserList.CHROME){
@@ -168,7 +232,25 @@ public class BaseTest {
             throw new RuntimeException("Lỗi không mở được trình duyệt");
         }
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.MILLISECONDS);
+        driver.manage().timeouts().implicitlyWait(GlobalConstants.getGlobalConstants().getLongTimeout(), TimeUnit.MILLISECONDS);
+        driver.get(url);
+        return driver;
+    }
+    protected WebDriver getBrowerDriverLocal(String browserName) {
+        BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
+
+        if (browser == BrowserList.CHROME){
+            driver = WebDriverManager.chromedriver().create();
+        }
+        else if(browser == BrowserList.FIREFOX){
+            driver = WebDriverManager.firefoxdriver().create();
+        }   else if(browser == BrowserList.EDGE){
+            driver = WebDriverManager.edgedriver().create();
+        }else {
+            throw new RuntimeException("Lỗi không mở được trình duyệt");
+        }
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(GlobalConstants.getGlobalConstants().getLongTimeout(), TimeUnit.MILLISECONDS);
         driver.get(url);
         return driver;
     }
@@ -191,7 +273,7 @@ public class BaseTest {
         }
 
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getLongTimeout()));
         return driver;
 
     }
@@ -218,7 +300,7 @@ public class BaseTest {
         driver.manage().window().setSize(new Dimension(1920, 1080));
 
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getLongTimeout()));
         System.out.println("Server Name: " + serverName);
         System.out.println("Server Url: " + getUrlByServerName(serverName));
         driver.get(getUrlByServerName(serverName));
@@ -247,7 +329,7 @@ public class BaseTest {
         driver.manage().window().setSize(new Dimension(1920, 1080));
 
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getLongTimeout()));
 
         driver.get(url);
         return driver;
@@ -274,7 +356,6 @@ public class BaseTest {
         }
         return serverName;
     }
-
 
     protected WebDriver getBrowserNameHeadLess(String browserName) {
         BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
@@ -369,7 +450,7 @@ public class BaseTest {
         driver.manage().window().maximize();
 //        driver.manage().window().setPosition(new Point(0, 0));
 //        driver.manage().window().setSize(new Dimension(1920, 1080));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getLongTimeout()));
         driver.get("http://localhost:90/orangehrm");
 
         return driver;
@@ -391,7 +472,7 @@ public class BaseTest {
 
                 // options 2: selenium v4
                 driver = new FirefoxDriver();
-                Path xpiPath = Paths.get(GlobalConstants.BROWSER_EXTENSIONS + "wappalyzer.xpi");
+                Path xpiPath = Paths.get(GlobalConstants.getGlobalConstants().getBrowserExtensions() + "wappalyzer.xpi");
                 FirefoxDriver ffDriver = (FirefoxDriver) driver;
                 ffDriver.installExtension(xpiPath);
                 driver = ffDriver;
@@ -406,7 +487,7 @@ public class BaseTest {
 
                 // options 2: selenium v4
                 ChromeOptions chOptions = new ChromeOptions();
-                path = Paths.get(GlobalConstants.BROWSER_EXTENSIONS +"Wappalyzer.crx");
+                path = Paths.get(GlobalConstants.getGlobalConstants().getBrowserExtensions() +"Wappalyzer.crx");
                 extensionFilePath = new File(path.toUri());
                 chOptions.addExtensions(extensionFilePath);
                 driver = new ChromeDriver(chOptions);
@@ -420,7 +501,7 @@ public class BaseTest {
 
                 // options 2: selenium v4
                 EdgeOptions edgeOptions = new EdgeOptions();
-                path = Paths.get(GlobalConstants.BROWSER_EXTENSIONS + "wappalyzer.crx");
+                path = Paths.get(GlobalConstants.getGlobalConstants().getBrowserExtensions() + "wappalyzer.crx");
                 extensionFilePath = new File(path.toUri());
                 edgeOptions.addExtensions(extensionFilePath);
                 driver = new EdgeDriver(edgeOptions);
@@ -432,7 +513,7 @@ public class BaseTest {
         driver.manage().window().maximize();
 //        driver.manage().window().setPosition(new Point(0, 0));
 //        driver.manage().window().setSize(new Dimension(1920, 1080));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getLongTimeout()));
         driver.get(url);
         return driver;
     }
@@ -448,7 +529,7 @@ public class BaseTest {
                 //FirefoxDriverService ffService = new GeckoDriverService.Builder().withLogOutput(System.out).build();
 
                 // Log to Level
-                System.setProperty(GeckoDriverService.GECKO_DRIVER_LOG_PROPERTY, GlobalConstants.BROWSER_LOGS + "FirefoxLevel.log");
+                System.setProperty(GeckoDriverService.GECKO_DRIVER_LOG_PROPERTY, GlobalConstants.getGlobalConstants().getBrowserLogs()+ "FirefoxLevel.log");
                 FirefoxDriverService ffService = new GeckoDriverService.Builder().withLogLevel(FirefoxDriverLogLevel.DEBUG).build();
 
                 driver = new FirefoxDriver(ffService);
@@ -461,7 +542,7 @@ public class BaseTest {
                 //ChromeDriverService chService = new ChromeDriverService.Builder().withLogOutput(System.out).build();
 
                 // Log to Level
-                System.setProperty(ChromeDriverService.CHROME_DRIVER_LOG_PROPERTY, GlobalConstants.BROWSER_LOGS + "ChromeLevel.log");
+                System.setProperty(ChromeDriverService.CHROME_DRIVER_LOG_PROPERTY, GlobalConstants.getGlobalConstants().getBrowserLogs() +"ChromeLevel.log");
                 ChromeDriverService chService = new ChromeDriverService.Builder().withLogLevel(ChromiumDriverLogLevel.DEBUG).build();
 
                 driver = new ChromeDriver(chService);
@@ -474,7 +555,8 @@ public class BaseTest {
                 //EdgeDriverService edgeService = new EdgeDriverService.Builder().withLogOutput(System.out).build();
 
                 // Log to Level
-                System.setProperty(EdgeDriverService.EDGE_DRIVER_LOG_PROPERTY, GlobalConstants.BROWSER_LOGS + "EdgeLevel.log");
+                System.setProperty(EdgeDriverService.EDGE_DRIVER_LOG_PROPERTY, GlobalConstants.getGlobalConstants().getBrowserLogs() + "EdgeLevel.log");
+
                 EdgeDriverService edgeService = new EdgeDriverService.Builder().withLoglevel(ChromiumDriverLogLevel.DEBUG).build();
 
                 driver = new EdgeDriver(edgeService);
@@ -486,7 +568,7 @@ public class BaseTest {
         driver.manage().window().maximize();
 //        driver.manage().window().setPosition(new Point(0, 0));
 //        driver.manage().window().setSize(new Dimension(1920, 1080));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getLongTimeout()));
         driver.get(url);
 
         return driver;
@@ -577,7 +659,7 @@ public class BaseTest {
 
                 // Download file KHONG hien download dialog khi bam nut down
                 chPrefs.put("profile.default_content_settings.popups", 0);
-                chPrefs.put("download.default_directory", GlobalConstants.DOWNLOAD_PATH);
+                chPrefs.put("download.default_directory", GlobalConstants.getGlobalConstants().getDownloadPath());
 
                 ChromeOptions chOptions = new ChromeOptions();
 
@@ -608,7 +690,7 @@ public class BaseTest {
 
                 // Download file KHONG hien download dialog khi bam nút down
                 edgePrefs.put("profile.default_content_settings.popups", 0);
-                edgePrefs.put("download.default_directory", GlobalConstants.DOWNLOAD_PATH);
+                edgePrefs.put("download.default_directory", GlobalConstants.getGlobalConstants().getDownloadPath());
 
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.addArguments("--lang=fr");
@@ -631,62 +713,11 @@ public class BaseTest {
         driver.manage().window().maximize();
 //        driver.manage().window().setPosition(new Point(0, 0));
 //        driver.manage().window().setSize(new Dimension(1920, 1080));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getLongTimeout()));
         driver.get(url);
 
         return driver;
     }
-
-    protected boolean verifyTrue (boolean condition) {
-        boolean pass = true;
-        try {
-            Assert.assertTrue(condition);
-//            log.info("--------------PASSED--------------");
-        } catch (Throwable e) {
-//            log.info("--------------FAILED--------------");
-            pass = false;
-
-            VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
-            Reporter.getCurrentTestResult().setThrowable(e);
-        }
-        return pass;
-    }
-
-    protected boolean verifyFalse(boolean condition) {
-        boolean pass = true;
-        try {
-
-            Assert.assertFalse(condition);
-//            log.info("--------------PASSED--------------");
-        } catch (Throwable e) {
-//            log.info("--------------FAILED--------------");
-            pass = false;
-            VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
-            Reporter.getCurrentTestResult().setThrowable(e);
-        }
-        return pass;
-    }
-
-    protected boolean verifyEquals(Object actual, Object expected) {
-        boolean pass = true;
-        try {
-            Assert.assertEquals(actual, expected);
-//            log.info("--------------PASSED--------------");
-        } catch (Throwable e) {
-//            log.info("--------------FAILED--------------");
-            pass = false;
-            VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
-            Reporter.getCurrentTestResult().setThrowable(e);
-        }
-        return pass;
-    }
-    protected void closeBrowser(){
-        if (driver != null) {
-            driver.manage().deleteAllCookies();
-            driver.quit();
-        }
-    }
-    //
 
     protected void closeBrowserCloseTaskManger(){
         String cmd = null;
@@ -737,12 +768,58 @@ public class BaseTest {
         }
     }
 
+    protected WebDriver getBrowserDriverGRID(String browserName, String url, String osName, String ipAddress, String portNumber) {
+        if (osName.toLowerCase().contains("windows")) {
+            platform = Platform.WINDOWS;
+        } else if (osName.toLowerCase().contains("mac")) {
+            platform = Platform.MAC;
+        } else {
+            platform = Platform.LINUX;
+        }
+
+        /** Selenium 4*/
+        Capabilities capability = null;
+        switch (browserName) {
+            case "firefox":
+                FirefoxOptions fOptions = new FirefoxOptions();
+                fOptions.setCapability(CapabilityType.PLATFORM_NAME, platform);
+                capability = fOptions;
+                break;
+            case "chrome":
+                ChromeOptions cOptions = new ChromeOptions();
+                cOptions.setCapability(CapabilityType.PLATFORM_NAME, platform);
+                capability = cOptions;
+                break;
+            case "edge":
+                EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions.setCapability(CapabilityType.PLATFORM_NAME, platform);
+                capability = edgeOptions;
+                break;
+            case "safari":
+                SafariOptions sOptions = new SafariOptions();
+                sOptions.setCapability(CapabilityType.PLATFORM_NAME, platform);
+                capability = sOptions;
+                break;
+            default:
+                throw new RuntimeException("Browser is not valid!");
+        }
+
+        try {
+            driver = new RemoteWebDriver(new URL(String.format("http://%s:%s/", ipAddress, portNumber)), capability);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        driver.manage().window().maximize();
+        driver.get(url);
+        return driver;
+    }
+
     /**
      * Run with CLOUD
      */
-
     /*================BrowserStack================*/
-
     protected WebDriver getBrowserDriverBrowserStack(String browserName, String url, String osName, String osVer) {
         MutableCapabilities capabilities = new MutableCapabilities();
         HashMap<String, Object> bstackOptions = new HashMap<String, Object>();
@@ -755,7 +832,7 @@ public class BaseTest {
         bstackOptions.put("debug", "true");
         capabilities.setCapability("bstack:options", bstackOptions);
         try {
-            driver = new RemoteWebDriver(new URL(GlobalConstants.BROWSERSTACK_URL), capabilities);
+            driver = new RemoteWebDriver(new URL(GlobalConstants.getGlobalConstants().getBrowserstackUrl()), capabilities);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -804,14 +881,14 @@ public class BaseTest {
         }
 
         Map<String, Object> sauceOptions = new HashMap<>();
-        sauceOptions.put("username", GlobalConstants.SAUCELABS_USERNAME);
-        sauceOptions.put("accessKey", GlobalConstants.SAUCELABS_ACCESS_KEY);
+        sauceOptions.put("username", GlobalConstants.getGlobalConstants().getSaucelabsUsername());
+        sauceOptions.put("accessKey", GlobalConstants.getGlobalConstants().getSaucelabsAccessKey());
         sauceOptions.put("build", "auto-course-build");
         sauceOptions.put("name", "Run on " + osName + " with " + browserName + " " + browserVer);
         capabilities.setCapability("sauce:options", sauceOptions);
 
         try {
-            driver = new RemoteWebDriver(new URL(GlobalConstants.SAUCELABS_URL), capabilities);
+            driver = new RemoteWebDriver(new URL(GlobalConstants.getGlobalConstants().getSaucelabsUrl()), capabilities);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -832,14 +909,14 @@ public class BaseTest {
         HashMap<String, String> bitbarOptions = new HashMap<String, String>();
         bitbarOptions.put("project", "Auto Cuongne");
         bitbarOptions.put("testrun", "Run on " + osName + " " + osVer + " with " + browserName);
-        bitbarOptions.put("apiKey", GlobalConstants.BITBAR_ACCESS_KEY);
+        bitbarOptions.put("apiKey", GlobalConstants.getGlobalConstants().getBitbarAccessKey());
         bitbarOptions.put("osVersion", osVer);
         bitbarOptions.put("resolution", "1920x1080");
         bitbarOptions.put("seleniumVersion", "4");
         capabilities.setCapability("bitbar:options", bitbarOptions);
 
         try {
-            driver = new RemoteWebDriver(new URL(GlobalConstants.BITBAR_URL), capabilities);
+            driver = new RemoteWebDriver(new URL(GlobalConstants.getGlobalConstants().getBitbarUrl()), capabilities);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -850,33 +927,32 @@ public class BaseTest {
         return driver;
     }
 
-    ///
-    protected WebDriver getBrowserDriverLambda(String browserName, String url, String browserVer, String osName) {
+    protected WebDriver getBrowserDriverLambdaV2(String url, String osName, String browserName, String browserVersion) {
         MutableCapabilities capability = null;
 
         switch (browserName) {
             case "firefox":
                 FirefoxOptions fOptions = new FirefoxOptions();
                 fOptions.setPlatformName(osName);
-                fOptions.setBrowserVersion(browserVer);
+                fOptions.setBrowserVersion(browserVersion);
                 capability = fOptions;
                 break;
             case "chrome":
                 ChromeOptions cOptions = new ChromeOptions();
                 cOptions.setPlatformName(osName);
-                cOptions.setBrowserVersion(browserVer);
+                cOptions.setBrowserVersion(browserVersion);
                 capability = cOptions;
                 break;
             case "edge":
                 EdgeOptions eOptions = new EdgeOptions();
                 eOptions.setPlatformName(osName);
-                eOptions.setBrowserVersion(browserVer);
+                eOptions.setBrowserVersion(browserVersion);
                 capability = eOptions;
                 break;
             case "safari":
                 SafariOptions sOptions = new SafariOptions();
                 sOptions.setPlatformName(osName);
-                sOptions.setBrowserVersion(browserVer);
+                sOptions.setBrowserVersion(browserVersion);
                 capability = sOptions;
                 break;
             default:
@@ -887,13 +963,13 @@ public class BaseTest {
         SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
 
         HashMap<String, Object> lambdaOptions = new HashMap<String, Object>();
-        lambdaOptions.put("username", GlobalConstants.LAMBDA_USERNAME);
-        lambdaOptions.put("accessKey", GlobalConstants.LAMBDA_ACCESS_KEY);
+        lambdaOptions.put("username", GlobalConstants.getGlobalConstants().getLambdaUsername());
+        lambdaOptions.put("accessKey", GlobalConstants.getGlobalConstants().getLambdaAccessKey());
         lambdaOptions.put("visual", true);
         lambdaOptions.put("video", true);
         lambdaOptions.put("build", "nopcommerce-build");
         lambdaOptions.put("project", "NopCommerce - UI Automation Testing");
-        lambdaOptions.put("name", "Run on " + osName + " | " + browserName + " | " + browserVer + " | " + formater.format(calendar.getTime()));
+        lambdaOptions.put("name", "Run on " + osName + " | " + browserName + " | " + browserVersion + " | " + formater.format(calendar.getTime()));
         lambdaOptions.put("w3c", true);
         lambdaOptions.put("selenium_version", "4.23.0");
         lambdaOptions.put("resolution", "1920x1080");
@@ -902,17 +978,38 @@ public class BaseTest {
         capability.setCapability("LT:Options", lambdaOptions);
 
         try {
-            driver = new RemoteWebDriver(new URL(GlobalConstants.LAMBDA_URL), capability);
+            driver = new RemoteWebDriver(new URL(GlobalConstants.getGlobalConstants().getLambdaUrl()), capability);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getLongTimeout()));
         driver.manage().window().maximize();
         driver.get(url);
         return driver;
     }
-
-
+    protected WebDriver getBrowserDriverLambdaV3(String browserName, String url, String osName) {
+        DesiredCapabilities capability = new DesiredCapabilities();
+        capability.setCapability("browserName", browserName);
+        capability.setCapability("platform", osName);
+        capability.setCapability("version", "latest");
+        capability.setCapability("video", true);
+        capability.setCapability("visual", true);
+        if (osName.contains("Windows")) {
+            capability.setCapability("screenResolution", "1920x1080");
+        } else {
+            capability.setCapability("screenResolution", "2560x1600");
+        }
+        capability.setCapability("name", "Run on " + osName + " / " + browserName);
+        try {
+            driver = new RemoteWebDriver(new URL(GlobalConstants.getGlobalConstants().getLambdaUrl()), capability);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getLongTimeout()));
+        driver.manage().window().maximize();
+        driver.get(url);
+        return driver;
+}
 
 }

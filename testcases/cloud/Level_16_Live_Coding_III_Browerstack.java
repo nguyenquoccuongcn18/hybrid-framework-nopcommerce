@@ -29,8 +29,8 @@ public class Level_16_Live_Coding_III_Browerstack extends BaseTest {
         driver= getBrowserDriverBrowserStack(browserName,url,osName,osVer);
         loginPage = PageGeneratorManagerSauceLab.getLoginPage(driver);
 
-        loginPage.enterToUsername(GlobalConstants.USER_NAME_SAUCEDEMO);
-        loginPage.enterToPassword(GlobalConstants.PASSWORD_SAUCEDEMO);
+        loginPage.enterToUsername(GlobalConstants.getGlobalConstants().getUserNameSaucedemo());
+        loginPage.enterToPassword(GlobalConstants.getGlobalConstants().getPasswordSaucedemo());
         productPage = loginPage.clickToLoginButton();
 
     }

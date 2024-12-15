@@ -23,14 +23,14 @@ public class Level_16_Live_Coding_VI_Lambda extends BaseTest {
 
 
 
-    @Parameters({"browser", "url", "osName","browserVer"})
+    @Parameters({"browser", "url", "osName"})
     @BeforeMethod
-    public void beforeClass(String browserName, String url, String browserVer, String osName) {
-        driver= getBrowserDriverLambda(browserName, url, browserVer, osName);
+    public void beforeClass(String browserName, String url, String osName) {
+        driver= getBrowserDriverLambdaV3(browserName, url, osName);
         loginPage = PageGeneratorManagerSauceLab.getLoginPage(driver);
 
-        loginPage.enterToUsername(GlobalConstants.USER_NAME_SAUCEDEMO);
-        loginPage.enterToPassword(GlobalConstants.PASSWORD_SAUCEDEMO);
+        loginPage.enterToUsername(GlobalConstants.getGlobalConstants().getUserNameSaucedemo());
+        loginPage.enterToPassword(GlobalConstants.getGlobalConstants().getPasswordSaucedemo());
         productPage = loginPage.clickToLoginButton();
 
     }

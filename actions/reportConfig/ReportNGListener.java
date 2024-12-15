@@ -73,7 +73,7 @@ public class ReportNGListener extends BaseTest implements ITestListener {
             Calendar calendar = Calendar.getInstance();
             SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
             File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            String screenPath = GlobalConstants.REPORTNG_IMAGE_PATH + screenshotName + "_" + formater.format(calendar.getTime()) + ".png";
+            String screenPath = GlobalConstants.getGlobalConstants().getReportngImagePath() + screenshotName + "_" + formater.format(calendar.getTime()) + ".png";
             FileUtils.copyFile(source, new File(screenPath));
             return screenPath;
         } catch (IOException e) {

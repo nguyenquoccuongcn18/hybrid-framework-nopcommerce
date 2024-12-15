@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="libReportNG">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/library/libSelenium/commons-codec-1.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/library/libSelenium/hamcrest-all-1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/library/libSelenium/hamcrest-core-1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/library/libSelenium/junit-4.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/library/libSelenium/mockito-core-2.15.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/library/libSelenium/owner-1.0.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/library/libSelenium/selenium-server-4.22.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/library/libSelenium/testng-7.4.0.jar!/" />
+      <root url="file://$PROJECT_DIR$/library/libReportNG" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/library/libReportNG" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/library/libReportNG" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/library/libReportNG" recursive="false" type="SOURCES" />
+  </library>
+</component>

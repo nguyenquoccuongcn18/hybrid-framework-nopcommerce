@@ -26,7 +26,7 @@ public class Common_Register extends BaseTest {
     @Parameters("browser")
     @BeforeTest
     public void beforeTest(String browserName) {
-        driver= getBrowerDriver(browserName);
+        driver= getBrowerDriverLocal(browserName);
         homePage = PageGeneratorManager.getHomePage(driver);
 
         password = "12345678";

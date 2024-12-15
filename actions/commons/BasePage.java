@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class BasePage {
+public class BasePage  {
     //05/06/2024 - 63 hàm
     //Toàn cục phạm vi là ở class
     WebDriver driver;
@@ -180,13 +180,16 @@ public class BasePage {
         return driver.findElements(getByLocator(loacator));
     }
     public void clickToElement(WebDriver driver, String locator,String...restParams){
+        hightlightElement(driver, locator);
         getWebElement(driver,getDynamicLocator(locator,restParams)).click();
     }
     public void clickToElement(WebDriver driver,WebElement element){
         element.click();
     }
     public boolean sendKeysToElement(WebDriver driver, String locator, String valueToSend, String...restParams){
+
         getWebElement(driver,getDynamicLocator(locator,restParams)).clear();
+        hightlightElement(driver, locator);
         getWebElement(driver,getDynamicLocator(locator,restParams)).sendKeys(valueToSend);
         return false;
     }
@@ -205,6 +208,7 @@ public class BasePage {
         //        Select select = new Select(getWebElement(driver,locator));
         //        select.selectByVisibleText(itemValue);
         // Nếu ko dùng nhiều lần NEW lên dùng luôn
+        hightlightElement(driver, locator);
         new Select(getWebElement(driver,locator)).selectByVisibleText(itemValue);
     }
     public void selectItemInDefaultDropdown(WebDriver driver, String locator, String itemValue,String ...restParam) {
@@ -385,7 +389,7 @@ public class BasePage {
     public void hightlightElement(WebDriver driver,String locator) {
         WebElement element = getWebElement(driver,locator);
         String originalStyle = element.getAttribute("style");
-        ((JavascriptExecutor)driver).executeScript("arguments[0].setAttribute('style', arguments[1])", element, "border: 2px solid red; border-style: dashed;");
+        ((JavascriptExecutor)driver).executeScript("arguments[0].setAttribute('style', arguments[1])", element, "border: 4px solid red; border-style: dashed;");
         sleepInsecons(2);
         ((JavascriptExecutor)driver).executeScript("arguments[0].setAttribute('style', arguments[1])", element, originalStyle);
     }
@@ -481,7 +485,7 @@ public class BasePage {
         new WebDriverWait(driver,Duration.ofMillis(longTimeout)).until(ExpectedConditions.elementToBeClickable(getWebElement(driver,getDynamicLocator(locator,restParams))));
     }
     public void uploadMultipleFiles(WebDriver driver,String...filesNames){
-        String filePath = GlobalConstants.UPLOAD_PATH;
+        String filePath = GlobalConstants.getGlobalConstants().getUploadPath();
         String fullFileName = "";
         for(String file : filesNames){
             fullFileName = fullFileName + filePath + file +"\n";
@@ -490,8 +494,8 @@ public class BasePage {
         getWebElement(driver, BaseElementUI.UPLOAD_FILE_TYPE).sendKeys(fullFileName);
     }
 
-    public long longTimeout = GlobalConstants.LONG_TIMEOUT;
-    public long shortTimeout = GlobalConstants.SHORT_TIMEOUT;
+    public long longTimeout = GlobalConstants.getGlobalConstants().getLongTimeout();
+    public long shortTimeout = GlobalConstants.getGlobalConstants().getShortTimeout();
 
     public boolean isPageLoadedSuccess(WebDriver driver) {
         WebDriverWait explicitWait = new WebDriverWait(this.driver,Duration.ofSeconds(longTimeout));

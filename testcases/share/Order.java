@@ -11,7 +11,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjectsUser.CustomerPageObject;
 import pageObjectsUser.HomePageObject;
-import pageObjectsUser.LoginPageObjectUser;
 import pageObjectsUser.RegisterPageObject;
 
 import static share.Common_Register.email;
@@ -33,7 +32,7 @@ public class Order extends BaseTest {
     @Parameters("browser")
     @BeforeClass
     public void beforeClass(String browserName) {
-        driver= getBrowerDriver(browserName);
+        driver= getBrowerDriverLocal(browserName);
         homePage = PageGeneratorManager.getHomePage(driver);
 
 

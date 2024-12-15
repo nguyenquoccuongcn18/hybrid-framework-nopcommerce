@@ -8,12 +8,20 @@
 
  </listeners>
 
-    <test name="Run on firefox">
-        <parameter name="browser" value="firefox"/>
-        <parameter name="browserVer" value="122"/>
-        <parameter name="osName" value="Windows 11"/>
+<!--    <test name="Run on firefox">-->
+<!--        <parameter name="browser" value="firefox"/>-->
+<!--        <parameter name="browserVer" value="122"/>-->
+<!--        <parameter name="osName" value="Windows 11"/>-->
+<!--        <classes>-->
+<!--            <class name="cloud.Level_16_Live_Coding_VI_Lambda"></class>-->
+<!--        </classes>-->
+<!--    </test>-->
+    <test name="Run on CHROME - Windows 11">
+        <parameter name="osName" value="Windows 11" />
+        <parameter name="browser" value="chrome" />
+<!--        <parameter name="browser_version" value="129" />-->
         <classes>
-            <class name="cloud.Level_16_Live_Coding_VI_Lambda"></class>
+            <class name="cloud.Level_16_Live_Coding_VI_Lambda" />
         </classes>
     </test>
 </suite>

@@ -5,11 +5,8 @@ import commons.PageGeneratorManager;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.*;
-import pageObjectsUser.CustomerPageObject;
 import pageObjectsUser.HomePageObject;
-import pageObjectsUser.LoginPageObjectUser;
 import pageObjectsUser.RegisterPageObject;
 
 import java.util.Set;
@@ -28,7 +25,7 @@ public class Common_Register extends BaseTest {
     @Parameters("browser")
     @BeforeTest
     public void beforeTest(String browserName) {
-        driver= getBrowerDriver(browserName);
+        driver= getBrowerDriverLocal(browserName);
         homePage = PageGeneratorManager.getHomePage(driver);
 
         password = "12345678";

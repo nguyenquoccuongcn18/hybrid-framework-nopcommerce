@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="NopCommerce" parallel="false" thread-count="2">
+<!--
+    parallel="false" : thì chạy từng trình duyệt -> ví dụ: Chrome chạy tất cả các case sau đó mới tới firefox
+    parallel="tests" : thì mỗi class test sẽ chạy cho tất cả các  trình duyệt sau đó mới tới class tiếp theo
+    ví dụ: public void Sort_01_Name -> chạy cho chrome xong -> chạy tiếp firefox
+-->
+    <parameter name="url" value="https://www.saucedemo.com/"/>
+    <parameter name="envName" value="browserStack"/>
+    <parameter name="serverName" value="dev"/>
+ <listeners>
+     <listener class-name="commons.MethodListener"></listener>
+     <listener class-name="reportConfig.AllureTestListener"></listener>
+
+ </listeners>
+    <test name="Run on FIREFOX">
+        <parameter name="browser" value="FIREFOX"/>
+        <classes>
+            <class name="account.Level_29_Sort_ASC_DESC"></class>
+        </classes>
+    </test>
+    <test name="Run on chrome">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="account.Level_32_Sort_ASC_DESC_Parallel_Thread_V2"></class>
+        </classes>
+    </test>
+<!--    <test name="Run on egde">-->
+<!--        <parameter name="browser" value="egde"/>-->
+<!--        <classes>-->
+<!--            <class name="com.nopcommerce.account.Level_29_Sort_ASC_DESC"></class>-->
+<!--        </classes>-->
+<!--    </test>-->
+</suite>

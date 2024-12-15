@@ -69,5 +69,15 @@
     <orderEntry type="library" name="jackson-annotations-2.15.2" level="project" />
     <orderEntry type="library" name="commons-collections4-4.4" level="project" />
     <orderEntry type="library" name="owner-1.0.10" level="project" />
+    <orderEntry type="library" name="mysql-connector-java-8.0.30" level="project" />
+    <orderEntry type="library" name="allure-java-commons-2.24.0 (2)" level="project" />
+    <orderEntry type="library" name="assertj-core-3.24.2" level="project" />
+    <orderEntry type="library" name="libAsserJ" level="project" />
+    <orderEntry type="library" name="jackson-annotations-2.15.2 (2)" level="project" />
+    <orderEntry type="library" name="commons-collections4-4.4 (2)" level="project" />
+    <orderEntry type="library" name="commons-collections-3.2.1 (2)" level="project" />
+    <orderEntry type="library" name="libReportNG" level="project" />
+    <orderEntry type="library" name="bcpkix-jdk18on-1.76 (2)" level="project" />
+    <orderEntry type="library" name="postgresql-42.7.3" level="project" />
   </component>
 </module>

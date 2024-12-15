@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Data Table - Data Grid">
+    <parameter name="url" value="https://demo.nopcommerce.com/"/>
+
+    <test name="Run on Chrome">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="account.Level_21_Pattern_Objects_V2"></class>
+        </classes>
+    </test>
+</suite>

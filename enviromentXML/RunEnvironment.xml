@@ -14,7 +14,7 @@
     <test name="Run on chrome">
         <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="com.nopcommerce.account.Level_30_Enviroment_02_XML_File"></class>
+            <class name="account.Level_30_Enviroment_02_XML_File_V2"></class>
         </classes>
     </test>
 </suite>

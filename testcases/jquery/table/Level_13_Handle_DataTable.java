@@ -1,7 +1,6 @@
 package jquery.table;
 
 import commons.BaseTest;
-import commons.PageGeneratorManager;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -25,7 +24,7 @@ public class Level_13_Handle_DataTable extends BaseTest {
     @Parameters({"browser","url"})
     @BeforeClass
     public void beforeClass(String browserName,String url) {
-        driver= getBrowerDriver(browserName,url);
+        driver= getBrowerDriverLocalV2(browserName,url);
         homePage = PageGeneratorManagerjQuery.getHomePage(driver);
     }
 

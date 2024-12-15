@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Facebook Web" parallel="tests" thread-count="3">
+    <listeners>
+        <listener class-name="commons.MethodListener"/>
+        <listener class-name="org.uncommons.reportng.HTMLReporter"/>
+        <listener class-name="org.uncommons.reportng.JUnitXMLReporter"/>
+    </listeners>
+
+    <parameter name="url" value="https://www.facebook.com/"/>
+    <parameter name="server" value="dev"></parameter>
+
+    <test name="Run on Chrome - Windows">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="osName" value="windows"/>
+        <parameter name="ipAddress" value="192.168.1.5"/>
+        <parameter name="port" value="4444"/>
+        <classes>
+            <class name="com.facebook.home.Level_32_GRID"/>
+        </classes>
+    </test>
+
+<!--    <test name="Run on Firefox - Windows">-->
+<!--        <parameter name="browser" value="firefox"/>-->
+<!--        <parameter name="osName" value="windows"/>-->
+<!--        <parameter name="ipAddress" value="192.168.1.5"/>-->
+<!--        <parameter name="port" value="4444"/>-->
+<!--        <classes>-->
+<!--            <class name="com.facebook.home.Level_32_GRID"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="Run on Edge - Windows">-->
+<!--        <parameter name="browser" value="edge"/>-->
+<!--        <parameter name="osName" value="windows"/>-->
+<!--        <parameter name="ipAddress" value="192.168.1.5"/>-->
+<!--        <parameter name="port" value="4444"/>-->
+<!--        <classes>-->
+<!--            <class name="com.facebook.home.Level_32_GRID"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+</suite>

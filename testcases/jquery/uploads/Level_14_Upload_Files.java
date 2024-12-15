@@ -23,7 +23,7 @@ public class Level_14_Upload_Files extends BaseTest {
     @Parameters({"browser","url"})
     @BeforeClass
     public void beforeClass(String browserName,String url) {
-        driver= getBrowerDriver(browserName,url);
+        driver= getBrowerDriverLocalV2(browserName,url);
         upLoadPage = PageGeneratorManagerjQuery.getUploadPage(driver);
     }
 

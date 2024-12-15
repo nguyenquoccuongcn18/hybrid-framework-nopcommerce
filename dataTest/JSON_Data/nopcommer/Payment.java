@@ -14,7 +14,7 @@ public class Payment {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-            return mapper.readValue(new File(GlobalConstants.RESOURCES_PATH + "userData.json"), Payment.class);
+            return mapper.readValue(new File(GlobalConstants.getGlobalConstants().getResourcesPath() + "userData.json"), Payment.class);
         }catch (Exception ex) {
             ex.printStackTrace();
             return null;

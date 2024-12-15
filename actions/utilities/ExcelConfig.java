@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 public class ExcelConfig {
     private Sheet currentSheet;
-    private final String testDataExcelPath = GlobalConstants.DATA_TEST_PATH_EXCEL + "UserData.xlsx" ;
+    private final String testDataExcelPath = GlobalConstants.getGlobalConstants().getDataTestPathExcel() + "UserData.xlsx" ;
     private Map<String, Integer> columns;
 
     public static ExcelConfig getExcelData() {

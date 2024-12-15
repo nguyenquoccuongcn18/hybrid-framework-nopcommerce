@@ -3,7 +3,6 @@ package orangehrm.PIM;
 import commons.BaseTest;
 import commons.GlobalConstants;
 import orangehrmPageObjects.*;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -21,7 +20,7 @@ public class PIM_01_Employee_List_POJO_Data extends BaseTest {
     @Parameters({"browser","url"})
     @BeforeClass
     public void beforeClass(String browserName,String url) {
-        driver= getBrowerDriver(browserName,url);
+        driver= getBrowerDriverLocalV2(browserName,url);
 
         employeeInfo = EmployeeInfo.getEmployeeInfo();
         employeeInfo.setFirstName("John");
@@ -39,9 +38,9 @@ public class PIM_01_Employee_List_POJO_Data extends BaseTest {
 
         loginPage = PageGeneratorManager.getLoginPage(driver);
         sleepInsecons(3);
-        loginPage.inputToUsernameField(GlobalConstants.ADMIN_ORGANGE_HRM_USERNAME);
+        loginPage.inputToUsernameField(GlobalConstants.getGlobalConstants().getAdminOrgangeHrmUsernameLocal());
         sleepInsecons(3);
-        loginPage.inputToPasswordField(GlobalConstants.ADMIN_ORGANGE_HRM_PASSWORD);
+        loginPage.inputToPasswordField(GlobalConstants.getGlobalConstants().getAdminOrgangeHrmPasswordLocal());
         sleepInsecons(3);
         dashboardPage = loginPage.clickToLoginButton();
         sleepInsecons(5);
