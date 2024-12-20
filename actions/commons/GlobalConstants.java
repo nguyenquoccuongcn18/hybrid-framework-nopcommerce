@@ -66,6 +66,9 @@ public class GlobalConstants {
     private final String lambdaUrl = "https://" + lambdaUsername + ":" + lambdaAccessKey + "@hub.lambdatest.com/wd/hub";
 
 
+    private final String accessTokenLine = "0EHm9nsAloymhxYP4N1YU44jggnBOpGdUxGgSgjk9BB";
+    public static final String LINE_NOTIFY_API_URL = "https://notify-api.line.me/api/notify";
+    public static final String message = "Hi thông báo từ LINE Notify API.";
 
 
 

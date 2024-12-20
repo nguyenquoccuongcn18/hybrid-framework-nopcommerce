@@ -3,6 +3,7 @@ package account;
 
 import commons.BaseTest;
 import commons.GlobalConstants;
+import notify.LineNotify;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 import pageObjects.SauceLab.LoginPageObjects;
@@ -22,6 +23,7 @@ public class Level_34_Sort_ASC_DESC_MySQL extends BaseTest {
     private ProductPageObjects productPage;
     private dataUiPageObject dataItemNameUI;
     private LoginPageObjects LoginPage;
+    private LineNotify dataLineNotify;
 
 
 

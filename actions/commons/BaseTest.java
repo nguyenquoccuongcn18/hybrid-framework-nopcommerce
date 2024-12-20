@@ -18,11 +18,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariOptions;
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeSuite;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -32,6 +35,7 @@ import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+
 
 public class BaseTest {
     private Logger log;
@@ -49,6 +53,8 @@ public class BaseTest {
     private String url;
 //    protected final Logger log;
 //    protected final Log log;
+private final String accessTokenLineV2 = "0EHm9nsAloymhxYP4N1YU44jggnBOpGdUxGgSgjk9BB";
+
 
     public static WebDriver getDriver() {
         return driver;
@@ -165,12 +171,13 @@ public class BaseTest {
             throw new RuntimeException(e);
         }
     }
-    protected void closeBrowser(){
+    public void closeBrowser(){
         if (driver != null) {
             driver.manage().deleteAllCookies();
             driver.quit();
         }
     }
+
     public void deleteAllFileInFolder(String folderName){
         try {
             String pathFolderDownload = GlobalConstants.getGlobalConstants().getRelativeProjectPath() + File.separator + folderName;
@@ -1011,5 +1018,57 @@ public class BaseTest {
         driver.get(url);
         return driver;
 }
+    public  void sendLineNotify(String message) {
 
-}
+        try {
+            // Tạo URL đến LINE Notify API
+            URL url = new URL(GlobalConstants.getGlobalConstants().LINE_NOTIFY_API_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            // Thiết lập phương thức kết nối là POST
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setRequestProperty("Authorization", "Bearer " + GlobalConstants.getGlobalConstants().getAccessTokenLine()); // Thêm Bearer token
+            connection.setDoOutput(true);
+
+            // Nội dung thông báo cần gửi
+            String data = "message=" + message;
+
+            // Gửi dữ liệu
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = data.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+            // Kiểm tra mã trạng thái phản hồi
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("Thông báo đã được gửi thành công!");
+            } else {
+                System.out.println("Lỗi: Không thể gửi thông báo, mã lỗi: " + responseCode);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Đã xảy ra lỗi khi gửi thông báo.");
+        }
+
+    }
+    public void closeBrowserAndSendNotifyLine(ITestResult result){
+        {
+            if (driver != null) {
+                // Kiểm tra nếu phương thức kiểm thử không thành công
+                if (result.getStatus() == ITestResult.FAILURE) {
+                    //  thất bại, lấy tên phương thức và thông báo lỗi
+                    sendLineNotify("Failed => " + " Class:" + result.getMethod().getMethodName() + " - " + result.getThrowable().getMessage());
+                } else {
+                    //  thành công
+                    sendLineNotify("Passed => " + " Class:" + result.getMethod().getMethodName());
+                }
+                driver.quit();
+            }
+        }
+        }
+    }
+
+
