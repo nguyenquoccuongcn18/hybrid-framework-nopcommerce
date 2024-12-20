@@ -9,7 +9,7 @@ import java.net.URL;
 
 public class LineNotify {
 
-    public static void sendLineNotify(String message, String accessToken) {
+    public static void sendLineNotify(String message) {
         
         try {
             // Tạo URL đến LINE Notify API
@@ -49,6 +49,6 @@ public class LineNotify {
         String accessToken = "0EHm9nsAloymhxYP4N1YU44jggnBOpGdUxGgSgjk9BB"; //  Access Token
         String message = "Hi Mẫn Nhi thông báo từ LINE Notify API.";
 
-        sendLineNotify(message, accessToken);
+        sendLineNotify(message);
     }
 }
